@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import './App.css'
 import { BudgetContext } from './contexts/BudgetContext'
+import AddNewBudget from './components/AddNewBudget'
 
 
 
@@ -14,7 +15,7 @@ function App() {
 
   return (
     <>
-
+        <AddNewBudget />
     </>
   )
 }

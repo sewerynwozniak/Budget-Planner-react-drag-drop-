@@ -21,7 +21,7 @@ export const BudgetContext = createContext<BudgetContextTypes |null>(null)
 const BudgetProvider: React.FC<BudgetProviderProps>  = ({children}) => {
 
 
-    const [categories, setCategories] = useState<CategoriesType|null>([{id:1,title:'food'}])
+    const [categories, setCategories] = useState<CategoriesType|null>([{id:1,title:'food'},{id:2,title:'entertainment'}])
 
    
 
