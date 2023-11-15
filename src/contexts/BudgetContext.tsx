@@ -1,14 +1,17 @@
 import React, { ReactNode, createContext, useState } from 'react'
 
-type CategoriesType={
+export type CategoriesType={
     id:number,
-    title:string
-}[]
-
-
-type BudgetContextTypes = {
-  categories: CategoriesType | null;
+    title:string,
+    limit?:number
 }
+
+
+export type BudgetContextTypes = {
+  categories: CategoriesType[] | null;
+  toggle: boolean;
+}
+
 
 
 interface BudgetProviderProps {
@@ -21,13 +24,15 @@ export const BudgetContext = createContext<BudgetContextTypes |null>(null)
 const BudgetProvider: React.FC<BudgetProviderProps>  = ({children}) => {
 
 
-    const [categories, setCategories] = useState<CategoriesType|null>([{id:1,title:'food'},{id:2,title:'entertainment'}])
+    const [categories, setCategories] = useState<CategoriesType[]|null>([{id:1,title:'food',limit:1000},{id:2,title:'entertainment',limit:500}])
+    const [toggle, setToggle] = useState(false)
 
-   
+
+
 
   return (
 
-    <BudgetContext.Provider value={{categories}}>
+    <BudgetContext.Provider value={{categories, toggle}}>
         {children}
     </BudgetContext.Provider>
   )

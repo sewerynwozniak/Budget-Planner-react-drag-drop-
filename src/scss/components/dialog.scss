@@ -1,0 +1,25 @@
+.dialog[open]{
+    display: flex;
+    flex-direction: column;
+
+    
+}
+
+
+.dialog{
+
+    border-radius: 5px;
+
+    form{
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__closeBtn{
+        width: 50px;
+        align-self: end;
+    }
+    
+    
+}
+

@@ -1,0 +1,18 @@
+.budgets{
+
+
+    &__wrapper{
+        display: flex;
+    }
+
+
+    &__budget{
+        width: 300px;
+        height: 200px;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 10px;
+    }
+
+}
