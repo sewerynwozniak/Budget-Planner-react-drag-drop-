@@ -7,7 +7,7 @@ const dialogRef = useRef<HTMLDialogElement>(null)
 
 const [modalOpen, setModalOpen] = useState(false)
 const [addBudgetLimit, setAddBudgetLimit] = useState(false)
-
+const [inputs, setInputs] = useState({})
 
     useEffect(() => {
 
@@ -26,6 +26,7 @@ const [addBudgetLimit, setAddBudgetLimit] = useState(false)
 
     const submitBudget = (e: React.FormEvent<HTMLButtonElement>)=>{
         e.preventDefault()
+
         setModalOpen(false)
     }
 
@@ -39,16 +40,27 @@ const [addBudgetLimit, setAddBudgetLimit] = useState(false)
             <h3>Add budget</h3>
 
             <form action="">
-                <input type="text" placeholder='budget name'/>
+                <input 
+                    type="text" 
+                    name='budget' 
+                    onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.value}))} 
+                    placeholder='budget name'
+                />
 
                 <label htmlFor="addBudgetLimit">
                     add budget limit
-                    <input type="checkbox" onChange={()=>setAddBudgetLimit(prev=>!prev)} name="" id="addBudgetLimit" />
+                    <input 
+                        type="checkbox" onChange={()=>setAddBudgetLimit(prev=>!prev)} name="" id="addBudgetLimit" />
                 
                 </label>
           
                 {addBudgetLimit && (
-                    <input type="number" name="" id="" />
+                    <input 
+                        type="number" 
+                        onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.value}))} 
+                        name="limit" 
+                        id="" 
+                    />
                 )}
 
                 <button className='btn' onClick={submitBudget}>Add</button>

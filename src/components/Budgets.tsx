@@ -5,12 +5,12 @@ import Budget from './Budget'
 
 const Budgets = () => {
 
-
   const budgetContext = useContext(BudgetContext);
-
+  //type guard to check potential false value
   if (!budgetContext) {
-    return null; 
+    return false; 
   }
+  console.log('checking')
 
   const { categories, toggle } = budgetContext;
 

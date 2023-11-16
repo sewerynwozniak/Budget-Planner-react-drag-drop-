@@ -9,6 +9,7 @@ export type CategoriesType={
 
 export type BudgetContextTypes = {
   categories: CategoriesType[] | null;
+  setCategories: React.Dispatch<React.SetStateAction<CategoriesType[] | null>>
   toggle: boolean;
 }
 
@@ -21,7 +22,7 @@ interface BudgetProviderProps {
 
 export const BudgetContext = createContext<BudgetContextTypes |null>(null)
 
-const BudgetProvider: React.FC<BudgetProviderProps>  = ({children}) => {
+const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
 
 
     const [categories, setCategories] = useState<CategoriesType[]|null>([{id:1,title:'food',limit:1000},{id:2,title:'entertainment',limit:500}])
@@ -32,7 +33,7 @@ const BudgetProvider: React.FC<BudgetProviderProps>  = ({children}) => {
 
   return (
 
-    <BudgetContext.Provider value={{categories, toggle}}>
+    <BudgetContext.Provider value={{categories, setCategories, toggle}}>
         {children}
     </BudgetContext.Provider>
   )
