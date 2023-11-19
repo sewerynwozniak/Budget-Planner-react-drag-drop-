@@ -1,7 +1,7 @@
 import React from 'react'
-import { CategoriesType } from '../contexts/BudgetContext'
+import { BudgetType } from '../contexts/BudgetContext'
 
-const Budget :React.FC<{ details: CategoriesType }> = ({details}) => {
+const Budget :React.FC<{ details: BudgetType }> = ({details}) => {
   return (
     <div className='budgets__budget'>
       

@@ -12,13 +12,13 @@ const Budgets = () => {
   }
   console.log('checking')
 
-  const { categories, toggle } = budgetContext;
+  const { budgets } = budgetContext;
 
 
 
   return (
     <div className='budgets__wrapper'>
-        {categories?.map((budget)=>(
+        {budgets?.map((budget)=>(
              <Budget details={budget} />
         ))}
 

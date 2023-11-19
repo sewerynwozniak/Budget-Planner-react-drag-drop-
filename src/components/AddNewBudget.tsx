@@ -1,4 +1,6 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { BudgetContext } from '../contexts/BudgetContext'
+import { BudgetType } from '../contexts/BudgetContext'
 
 const AddNewBudget = () => {
 
@@ -7,7 +9,21 @@ const dialogRef = useRef<HTMLDialogElement>(null)
 
 const [modalOpen, setModalOpen] = useState(false)
 const [addBudgetLimit, setAddBudgetLimit] = useState(false)
-const [inputs, setInputs] = useState({})
+const [inputs, setInputs] = useState({budget:'',limit:0})
+
+
+
+const budgetContext = useContext(BudgetContext);
+//type guard to check potential false value
+if (!budgetContext) {
+  return false; 
+}
+
+
+const { setBudgets } = budgetContext;
+
+
+
 
     useEffect(() => {
 
@@ -24,11 +40,67 @@ const [inputs, setInputs] = useState({})
         setModalOpen(true)
     }
 
+
+
+    //To retrieve data from local storage
+    const getDataFromLocalStorage = () => {
+     const data = localStorage.getItem('budgetData');
+     return data ? JSON.parse(data) : [];
+      };
+
+    // Retrieve data from local storageconst 
+    //const retrievedData = getDataFromLocalStorage();
+
+  
+
+    // To save data to local storage
+    const saveDataToLocalStorage = (data:BudgetType) => {
+        
+    const retrievedData = getDataFromLocalStorage();
+    console.log(retrievedData)
+         let combinedData = [retrievedData]
+         combinedData.push(data)
+         console.log(combinedData)
+      localStorage.setItem('budgetData', JSON.stringify(combinedData));
+    };
+
+ 
+
+    
+  
+    // Example usage to save and retrieve data
+    //const yourBudgetData = [...]; // Your BudgetType[] data
+
+    // Save data to local storage
+   // saveDataToLocalStorage(yourBudgetData);
+
+
+
+
     const submitBudget = (e: React.FormEvent<HTMLButtonElement>)=>{
         e.preventDefault()
+        console.log(inputs)
+
+        const newBudget = {id:Math.random(),title:inputs.budget,limit:inputs.limit}
+      
+        setBudgets(prev=>{
+            if(prev==null){
+                return []
+            }else{
+                return [...prev, newBudget]
+            }
+        })
+    
+        saveDataToLocalStorage(newBudget)
+
+
 
         setModalOpen(false)
     }
+
+
+
+
 
 
   return (
