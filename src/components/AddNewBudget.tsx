@@ -57,22 +57,17 @@ const { setBudgets } = budgetContext;
     const saveDataToLocalStorage = (data:BudgetType) => {
         
     const retrievedData = getDataFromLocalStorage();
-    console.log(retrievedData)
-         let combinedData = [retrievedData]
+        console.log(retrievedData)
+         let combinedData = retrievedData
          combinedData.push(data)
          console.log(combinedData)
-      localStorage.setItem('budgetData', JSON.stringify(combinedData));
+        localStorage.setItem('budgetData', JSON.stringify(combinedData));
     };
 
- 
+
 
     
-  
-    // Example usage to save and retrieve data
-    //const yourBudgetData = [...]; // Your BudgetType[] data
 
-    // Save data to local storage
-   // saveDataToLocalStorage(yourBudgetData);
 
 
 
@@ -85,7 +80,7 @@ const { setBudgets } = budgetContext;
       
         setBudgets(prev=>{
             if(prev==null){
-                return []
+                return [newBudget]
             }else{
                 return [...prev, newBudget]
             }

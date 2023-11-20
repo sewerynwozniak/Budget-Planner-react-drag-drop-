@@ -27,16 +27,20 @@ export const BudgetContext = createContext<BudgetContextTypes |null>(null)
 const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
 
 
-  const [budgets, setBudgets] = useState<BudgetType[]|null>([{id:1,title:'food',limit:1000},{id:2,title:'entertainment',limit:500}])
+  const [budgets, setBudgets] = useState<BudgetType[]|null>(null)
 
   useEffect(()=>{
           // To retrieve data from local storage
           const getDataFromLocalStorage = () => {
             const data = localStorage.getItem('budgetData');
-            return data ? JSON.parse(data) : [];
+            return data ? JSON.parse(data) : null;
           };
           const retrievedData = getDataFromLocalStorage();
-          setBudgets(retrievedData)
+          if(budgets==null){
+            setBudgets(retrievedData)
+          }else{
+            setBudgets([...budgets, retrievedData])
+          }
   },[])
 
 

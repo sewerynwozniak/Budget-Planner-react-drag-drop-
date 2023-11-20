@@ -5,9 +5,9 @@ const Budget :React.FC<{ details: BudgetType }> = ({details}) => {
   return (
     <div className='budgets__budget'>
       
-      <h3>{details.title}</h3>
+      <h3>{details?.title}</h3>
 
-      <span>{details.limit}</span>
+      <span>{details?.limit}</span>
       
     </div>
   )

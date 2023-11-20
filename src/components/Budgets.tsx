@@ -10,17 +10,21 @@ const Budgets = () => {
   if (!budgetContext) {
     return false; 
   }
-  console.log('checking')
+ 
 
   const { budgets } = budgetContext;
 
+  const displayBudgets = ()=>{
+   return budgets? budgets?.map((budget)=>(
+      <Budget details={budget} />
+  )):null
+  }
 
 
   return (
     <div className='budgets__wrapper'>
-        {budgets?.map((budget)=>(
-             <Budget details={budget} />
-        ))}
+
+        {displayBudgets()}
 
     </div>
   )
