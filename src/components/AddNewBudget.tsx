@@ -48,8 +48,7 @@ const { setBudgets } = budgetContext;
      return data ? JSON.parse(data) : [];
       };
 
-    // Retrieve data from local storageconst 
-    //const retrievedData = getDataFromLocalStorage();
+
 
   
 
@@ -57,10 +56,8 @@ const { setBudgets } = budgetContext;
     const saveDataToLocalStorage = (data:BudgetType) => {
         
     const retrievedData = getDataFromLocalStorage();
-        console.log(retrievedData)
          let combinedData = retrievedData
          combinedData.push(data)
-         console.log(combinedData)
         localStorage.setItem('budgetData', JSON.stringify(combinedData));
     };
 
@@ -69,15 +66,12 @@ const { setBudgets } = budgetContext;
     
 
 
-
-
-
     const submitBudget = (e: React.FormEvent<HTMLButtonElement>)=>{
         e.preventDefault()
-        console.log(inputs)
 
-        const newBudget = {id:Math.random(),title:inputs.budget,limit:inputs.limit}
+        const newBudget = {id:Math.ceil(Math.random()*10000),title:inputs.budget,limit:inputs.limit}
       
+
         setBudgets(prev=>{
             if(prev==null){
                 return [newBudget]
