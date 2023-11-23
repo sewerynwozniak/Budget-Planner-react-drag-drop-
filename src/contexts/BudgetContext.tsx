@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext, useEffect, useState } from 'react'
+import React, { ReactNode, createContext, useEffect, useRef, useState } from 'react'
 
 export type BudgetType={
     id:number,
@@ -10,6 +10,9 @@ export type BudgetType={
 export type BudgetContextTypes = {
   budgets: BudgetType[] | null;
   setBudgets: React.Dispatch<React.SetStateAction<BudgetType[] | null>>
+  draggedBudget: React.MutableRefObject<number>
+  draggedOverBudget: React.MutableRefObject<number>
+  dropBudget: ()=>void
 }
 
 
@@ -29,6 +32,29 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
 
   const [budgets, setBudgets] = useState<BudgetType[]|null>(null)
 
+  console.log(budgets)
+
+  const draggedBudget = useRef(0)
+  const draggedOverBudget = useRef(0)
+
+
+  const dropBudget = ()=>{
+
+    
+    if(budgets){
+      const temp = budgets[draggedBudget.current]
+      const budgetClone = [...budgets]
+      budgetClone[draggedBudget.current]=budgets[draggedOverBudget.current]
+      budgetClone[draggedOverBudget.current]=temp
+      //console.log(newOrderedBudget)
+      setBudgets(budgetClone)
+    }
+
+
+
+  }
+
+
   useEffect(()=>{
           // To retrieve data from local storage
           const getDataFromLocalStorage = () => {
@@ -41,6 +67,8 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
           }else{
             setBudgets([...budgets, retrievedData])
           }
+
+          console.log('ładujemy z localstorage')
   },[])
 
 
@@ -49,7 +77,7 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
   
   return (
 
-    <BudgetContext.Provider value={{budgets, setBudgets}}>
+    <BudgetContext.Provider value={{budgets, setBudgets, draggedBudget, draggedOverBudget, dropBudget}}>
         {children}
     </BudgetContext.Provider>
   )

@@ -15,17 +15,15 @@ const Budgets = () => {
   const { budgets } = budgetContext;
 
   const displayBudgets = ()=>{
-   return budgets? budgets?.map((budget)=>(
-      <Budget details={budget} />
+   return budgets? budgets?.map((budget, index)=>(
+      <Budget index={index} details={budget} />
   )):null
   }
 
 
   return (
     <div className='budgets__wrapper'>
-
         {displayBudgets()}
-
     </div>
   )
 }
