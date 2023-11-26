@@ -40,13 +40,13 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
 
   const dropBudget = ()=>{
 
+ 
     
     if(budgets){
       const temp = budgets[draggedBudget.current]
       const budgetClone = [...budgets]
       budgetClone[draggedBudget.current]=budgets[draggedOverBudget.current]
       budgetClone[draggedOverBudget.current]=temp
-      //console.log(newOrderedBudget)
       setBudgets(budgetClone)
     }
 
