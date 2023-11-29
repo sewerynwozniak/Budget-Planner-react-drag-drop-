@@ -32,17 +32,20 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
 
   const [budgets, setBudgets] = useState<BudgetType[]|null>(null)
 
-  console.log(budgets)
+
 
   const draggedBudget = useRef(0)
   const draggedOverBudget = useRef(0)
 
 
+
   const dropBudget = ()=>{
 
  
-    
     if(budgets){
+
+
+
       const temp = budgets[draggedBudget.current]
       const budgetClone = [...budgets]
       budgetClone[draggedBudget.current]=budgets[draggedOverBudget.current]
@@ -68,7 +71,7 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
             setBudgets([...budgets, retrievedData])
           }
 
-          console.log('ładujemy z localstorage')
+   
   },[])
 
 

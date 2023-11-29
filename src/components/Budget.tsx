@@ -1,11 +1,22 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { BudgetType } from '../contexts/BudgetContext'
 import { BudgetContext } from '../contexts/BudgetContext'
 
-const Budget :React.FC<{ details: BudgetType, index:number }> = ({details, index}) => {
+const Budget:React.FC<{ details: BudgetType, index:number }> = ({details, index}) => {
 
+
+ 
 
 const [isHovered, setIsHovered] = useState(false)
+const [isDragged, setIsDragged] = useState(false)
+
+
+
+
+useEffect(() => {
+    setIsHovered(false);
+}, [details]);
+
 
   const budgetContext = useContext(BudgetContext);
   //type guard to check potential false value
@@ -33,17 +44,24 @@ const [isHovered, setIsHovered] = useState(false)
   }
 
 
-  const handleOnEnter =(index:number,e:any )=>{
+  const handleOnDragStart =(index:number, )=>{
+
+    draggedBudget.current=index
+    setIsDragged(true)
+   
+}
 
 
+  const handleOnEnter =(index:number)=>{
 
+      draggedOverBudget.current=index
       setIsHovered(true)
-    
-    
-
+     
   }
+
+
   const handleOnLeave =(e:any)=>{
-    console.log(e.relatedTarget)
+
     if(!e.relatedTarget.getAttribute('data-belong')){
       setIsHovered(false)
     }
@@ -51,22 +69,39 @@ const [isHovered, setIsHovered] = useState(false)
   }
 
   const handleOnDragEnd = ()=>{
-    
+  
     setIsHovered(false)
+    setIsDragged(false)
     dropBudget()
   }
 
 
+  const addExpense = (id:number)=>{
+  
+
+    
+
+  }
+
+
+  const handleStyleOnBudget = {
+    border: isHovered ? '1px solid red' : 'none',
+    outline: isDragged ? '3px solid blue' : 'none',
+
+  }
+
+
+    
+
   return (
     <div 
-      style={{border: isHovered?'1px solid red':'none'}}
+      style={handleStyleOnBudget}
       className='budgets__budget'
       data-index={index}
       data-belong='true'
       draggable 
-      onDragStart={(e:React.DragEvent<HTMLDivElement>)=>draggedBudget.current=( Number(e.currentTarget.getAttribute('data-index')))}
-      //onDragEnter={(e:React.DragEvent<HTMLDivElement>)=>draggedOverBudget.current=( Number(e.currentTarget.getAttribute('data-index')))}
-      onDragEnter={(e:React.DragEvent<HTMLDivElement>)=>handleOnEnter(Number(e.currentTarget.getAttribute('data-index')),e)}
+      onDragStart={(e:React.DragEvent<HTMLDivElement>)=>handleOnDragStart( Number(e.currentTarget.getAttribute('data-index')))}
+      onDragEnter={(e:React.DragEvent<HTMLDivElement>)=>handleOnEnter(Number(e.currentTarget.getAttribute('data-index')))}
       onDragLeave={handleOnLeave}
       onDragEnd={handleOnDragEnd}
       onDragOver={e=>e.preventDefault()}
@@ -75,8 +110,10 @@ const [isHovered, setIsHovered] = useState(false)
       <button data-belong='true' className='budgets__delete' onClick={()=>deleteBudget(details.id)}>X</button>
       <h3 data-belong='true'>{details?.title}</h3>
 
-      <span>{details?.limit}</span>
-      
+      <span data-belong='true'>{details?.limit}</span>
+
+      <button data-belong='true' className='budgets__addNew' onClick={()=>addExpense(details.id)}>Add expense</button>
+
     </div>
   )
 }

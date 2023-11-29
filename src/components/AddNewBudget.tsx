@@ -11,7 +11,10 @@ const [modalOpen, setModalOpen] = useState(false)
 const [addBudgetLimit, setAddBudgetLimit] = useState(false)
 const [inputs, setInputs] = useState({budget:'',limit:0})
 
-
+dialogRef.current?.addEventListener('keydown', (e)=>{
+    e.preventDefault()
+    setModalOpen(false)
+})
 
 const budgetContext = useContext(BudgetContext);
 //type guard to check potential false value
@@ -21,8 +24,6 @@ if (!budgetContext) {
 
 
 const { setBudgets } = budgetContext;
-
-
 
 
     useEffect(() => {
@@ -94,6 +95,7 @@ const { setBudgets } = budgetContext;
 
   return (
     <div className='addNewBudget__wrapper'>
+
         <dialog className='dialog' ref={dialogRef}>
             
             <button className='dialog__closeBtn btn' onClick={()=>setModalOpen(false)}>X</button>
