@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { BudgetType } from '../contexts/BudgetContext'
 import { BudgetContext } from '../contexts/BudgetContext'
+import AddNewExpense from './AddNewExpense'
 
 const Budget:React.FC<{ details: BudgetType, index:number }> = ({details, index}) => {
 
@@ -78,9 +79,7 @@ useEffect(() => {
 
   const addExpense = (id:number)=>{
   
-
-    
-
+    setModalExpenseOpen(true)
   }
 
 
@@ -90,6 +89,8 @@ useEffect(() => {
 
   }
 
+  //add new expense
+  const [modaExpenseOpen, setModalExpenseOpen] = useState(false)
 
     
 
@@ -113,7 +114,8 @@ useEffect(() => {
       <span data-belong='true'>{details?.limit}</span>
 
       <button data-belong='true' className='budgets__addNew' onClick={()=>addExpense(details.id)}>Add expense</button>
-
+      
+      <AddNewExpense modaExpenseOpen={modaExpenseOpen} setModalExpenseOpen={setModalExpenseOpen}/>
     </div>
   )
 }

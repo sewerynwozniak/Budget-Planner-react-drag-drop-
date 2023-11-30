@@ -11,10 +11,25 @@ const [modalOpen, setModalOpen] = useState(false)
 const [addBudgetLimit, setAddBudgetLimit] = useState(false)
 const [inputs, setInputs] = useState({budget:'',limit:0})
 
-dialogRef.current?.addEventListener('keydown', (e)=>{
-    e.preventDefault()
-    setModalOpen(false)
-})
+
+    const closeModalOnEscapeClick = (e:KeyboardEvent)=>{
+        if (e.key === 'Escape') {
+            e.preventDefault()
+            setModalOpen(false)
+          }
+    }
+
+    //handle closing dialog on escape keyDown
+    useEffect(()=>{
+     
+        dialogRef.current?.addEventListener('keydown', closeModalOnEscapeClick);
+
+        return () => {
+          dialogRef.current?.removeEventListener('keydown', closeModalOnEscapeClick);
+        };
+        },[])
+
+
 
 const budgetContext = useContext(BudgetContext);
 //type guard to check potential false value

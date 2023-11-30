@@ -17,9 +17,6 @@ export type BudgetContextTypes = {
 
 
 
-
-
-
 interface BudgetProviderProps {
   children: ReactNode;
 }
@@ -43,17 +40,12 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
 
  
     if(budgets){
-
-
-
       const temp = budgets[draggedBudget.current]
       const budgetClone = [...budgets]
       budgetClone[draggedBudget.current]=budgets[draggedOverBudget.current]
       budgetClone[draggedOverBudget.current]=temp
       setBudgets(budgetClone)
     }
-
-
 
   }
 
@@ -73,7 +65,6 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
 
    
   },[])
-
 
 
     
