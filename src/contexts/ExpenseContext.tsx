@@ -6,7 +6,7 @@ type ExpenseProviderProps={
     children: ReactNode;
   }
 
-type ExpenseType={
+export type ExpenseType={
     id:number,
     title:string,
     amount:number
@@ -20,10 +20,23 @@ export type ExpenseContextTypes = {
 
 
 
-const ExpenseContext = createContext<ExpenseContextTypes | null>(null)
+export const ExpenseContext = createContext<ExpenseContextTypes | null>(null)
 
 const ExpenseProvider: React.FC<ExpenseProviderProps> = ({children}) => {
 
+
+  // const demoExpenses= [
+  //   {
+  //     id:1,
+  //     expense:'Gas',
+  //     amount:100
+  //   },
+  //   {
+  //     id:2,
+  //     expense:'Bus tickets',
+  //     amount:50
+  //   }
+  // ]
 
    const [expenses, setExpenses] = useState<ExpenseType[]|null>(null);
 

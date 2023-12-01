@@ -29,10 +29,11 @@ const [inputs, setInputs] = useState({budget:'',limit:0})
         };
         },[])
 
-
+ 
 
 const budgetContext = useContext(BudgetContext);
 //type guard to check potential false value
+//console.log(budgetContext)
 if (!budgetContext) {
   return false; 
 }

@@ -38,7 +38,6 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
 
   const dropBudget = ()=>{
 
- 
     if(budgets){
       const temp = budgets[draggedBudget.current]
       const budgetClone = [...budgets]

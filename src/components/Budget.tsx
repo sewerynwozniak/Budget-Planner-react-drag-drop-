@@ -116,6 +116,9 @@ useEffect(() => {
       <button data-belong='true' className='budgets__addNew' onClick={()=>addExpense(details.id)}>Add expense</button>
       
       <AddNewExpense modaExpenseOpen={modaExpenseOpen} setModalExpenseOpen={setModalExpenseOpen}/>
+      <div className="expensesWrapper">
+        
+      </div>
     </div>
   )
 }

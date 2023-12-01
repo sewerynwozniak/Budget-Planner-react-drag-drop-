@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { ExpenseContext } from '../contexts/ExpenseContext'
+import { ExpenseType } from '../contexts/ExpenseContext'
 
 type AddNewExpenseProps={
     modaExpenseOpen: boolean;
@@ -10,9 +12,18 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen}:AddNewExpenseProps
 
     const dialogRef = useRef<HTMLDialogElement>(null)
 
-   
+    const [inputs, setInputs] = useState({expense:'',amount:0})
 
-    const [inputs, setInputs] = useState({budget:'',limit:0})
+
+
+    const expenseContext = useContext(ExpenseContext);
+    //type guard to check potential false value
+ 
+    if (!expenseContext) {
+        return false; 
+    }
+
+    const { setExpenses } = expenseContext;
 
 
     const closeModalOnEscapeClick = (e:KeyboardEvent)=>{
@@ -48,25 +59,48 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen}:AddNewExpenseProps
     }
 
 
-    const submitBudget = (e: React.FormEvent<HTMLButtonElement>)=>{
-        // e.preventDefault()
 
-        // const newBudget = {id:Math.ceil(Math.random()*10000),title:inputs.budget,limit:inputs.limit}
+    
+    //To retrieve data from local storage
+    const getDataFromLocalStorage = () => {
+        const data = localStorage.getItem('expenseData');
+        return data ? JSON.parse(data) : [];
+         };
+   
+
+
+    // To save data to local storage
+    const saveDataToLocalStorage = (data:ExpenseType) => {
+    
+        const retrievedData = getDataFromLocalStorage();
+             let combinedData = retrievedData
+             combinedData.push(data)
+            localStorage.setItem('expenseData', JSON.stringify(combinedData));
+        };
+
+
+
+
+
+    const submitBudget = (e: React.FormEvent<HTMLButtonElement>)=>{
+        e.preventDefault()
+
+        const newExpense= {id:Math.ceil(Math.random()*10000),title:inputs.expense,amount:inputs.amount}
       
 
-        // setBudgets(prev=>{
-        //     if(prev==null){
-        //         return [newBudget]
-        //     }else{
-        //         return [...prev, newBudget]
-        //     }
-        // })
+        setExpenses(prev=>{
+            if(prev==null){
+                return [newExpense]
+            }else{
+                return [...prev, newExpense]
+            }
+        })
     
-        // saveDataToLocalStorage(newBudget)
+        saveDataToLocalStorage(newExpense)
 
 
 
-        // setModalOpen(false)
+        setModalExpenseOpen(false)
     }
 
 
