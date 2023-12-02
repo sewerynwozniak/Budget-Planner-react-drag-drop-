@@ -2,14 +2,16 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { BudgetType } from '../contexts/BudgetContext'
 import { BudgetContext } from '../contexts/BudgetContext'
 import AddNewExpense from './AddNewExpense'
+import { filterExpenses } from '../contexts/ExpenseContext'
+
+
 
 const Budget:React.FC<{ details: BudgetType, index:number }> = ({details, index}) => {
 
 
- 
-
 const [isHovered, setIsHovered] = useState(false)
 const [isDragged, setIsDragged] = useState(false)
+
 
 
 
@@ -77,8 +79,7 @@ useEffect(() => {
   }
 
 
-  const addExpense = (id:number)=>{
-  
+  const addExpense = (id:number)=>{ 
     setModalExpenseOpen(true)
   }
 
@@ -92,7 +93,18 @@ useEffect(() => {
   //add new expense
   const [modaExpenseOpen, setModalExpenseOpen] = useState(false)
 
-    
+  
+  
+
+  const generatExpense = ()=>{
+    return filterExpenses(details.id).map(expense=>(
+      <div className='expenses__expense' key={expense.id}>
+        <p>{expense.title}</p>
+        <p>{expense.amount}</p>
+      </div>
+    ))
+  }
+
 
   return (
     <div 
@@ -111,13 +123,13 @@ useEffect(() => {
       <button data-belong='true' className='budgets__delete' onClick={()=>deleteBudget(details.id)}>X</button>
       <h3 data-belong='true'>{details?.title}</h3>
 
-      <span data-belong='true'>{details?.limit}</span>
+      <span data-belong='true'>limit: {details?.limit}</span>
 
       <button data-belong='true' className='budgets__addNew' onClick={()=>addExpense(details.id)}>Add expense</button>
       
-      <AddNewExpense modaExpenseOpen={modaExpenseOpen} setModalExpenseOpen={setModalExpenseOpen}/>
-      <div className="expensesWrapper">
-        
+      <AddNewExpense budgetId={details.id} modaExpenseOpen={modaExpenseOpen} setModalExpenseOpen={setModalExpenseOpen}/>
+      <div className="expenses__wrapper">
+        {generatExpense()}
       </div>
     </div>
   )

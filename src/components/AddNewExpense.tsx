@@ -4,15 +4,17 @@ import { ExpenseType } from '../contexts/ExpenseContext'
 
 type AddNewExpenseProps={
     modaExpenseOpen: boolean;
-    setModalExpenseOpen:React.Dispatch<React.SetStateAction<boolean>>
+    setModalExpenseOpen:React.Dispatch<React.SetStateAction<boolean>>;
+    budgetId:number
   }
 
-const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen}:AddNewExpenseProps) => {
+const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewExpenseProps) => {
 
+ 
 
     const dialogRef = useRef<HTMLDialogElement>(null)
 
-    const [inputs, setInputs] = useState({expense:'',amount:0})
+    const [inputs, setInputs] = useState({expense:'',amount:0, budgetId:budgetId})
 
 
 
@@ -85,7 +87,12 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen}:AddNewExpenseProps
     const submitBudget = (e: React.FormEvent<HTMLButtonElement>)=>{
         e.preventDefault()
 
-        const newExpense= {id:Math.ceil(Math.random()*10000),title:inputs.expense,amount:inputs.amount}
+        const newExpense = {
+            id: Math.ceil(Math.random() * 10000),
+            title: inputs.expense,
+            amount: inputs.amount,
+            budgetId: budgetId,
+          };
       
 
         setExpenses(prev=>{
@@ -119,20 +126,18 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen}:AddNewExpenseProps
         <form action="">
             <input 
                 type="text" 
-                name='budget' 
+                name='expense' 
                 onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.value}))} 
                 placeholder='expense name'
             />
     
-
-           
-                <input 
-                    type="number" 
-                    onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.value}))} 
-                    name="limit" 
-                    id="" 
-                    placeholder='cost'
-                />
+            <input 
+                type="number" 
+                onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.value}))} 
+                name="amount" 
+                id="" 
+                placeholder='amount'
+            />
             
     
             <button className='btn' onClick={submitBudget}>Add</button>

@@ -66,6 +66,9 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
   },[])
 
 
+  const getRelatedExpenses = ()=>{
+    
+  }
     
   
   return (

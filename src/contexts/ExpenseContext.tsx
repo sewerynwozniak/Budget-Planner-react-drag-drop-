@@ -10,6 +10,7 @@ export type ExpenseType={
     id:number,
     title:string,
     amount:number
+    budgetId:number
 }
 
 export type ExpenseContextTypes = {
@@ -17,6 +18,22 @@ export type ExpenseContextTypes = {
     setExpenses: React.Dispatch<React.SetStateAction<ExpenseType[] | null>>
 
 }
+
+
+
+     //To retrieve expense from local storage
+     const getDataFromLocalStorage = () => {
+      const data = localStorage.getItem('expenseData');
+      return data ? JSON.parse(data) 
+      : [];
+       };
+
+
+     export const filterExpenses = (budgetIdArg:number)=>{
+      const allExpenses: ExpenseType[] = getDataFromLocalStorage()
+      return allExpenses.filter(expense=>expense.budgetId == budgetIdArg)
+     }
+
 
 
 
@@ -39,6 +56,11 @@ const ExpenseProvider: React.FC<ExpenseProviderProps> = ({children}) => {
   // ]
 
    const [expenses, setExpenses] = useState<ExpenseType[]|null>(null);
+
+
+
+
+     
 
 
   return (
