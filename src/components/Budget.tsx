@@ -125,7 +125,7 @@ useEffect(() => {
 
       <span data-belong='true'>limit: {details?.limit}</span>
 
-      <button data-belong='true' className='budgets__addNew' onClick={()=>addExpense(details.id)}>Add expense</button>
+      
       
       <AddNewExpense budgetId={details.id} modaExpenseOpen={modaExpenseOpen} setModalExpenseOpen={setModalExpenseOpen}/>
       <div className="expenses__wrapper">

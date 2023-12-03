@@ -5,7 +5,7 @@
         border: 1px solid #4177c3;
         border-radius: 10px;
         padding: 10px;
-        
+        transition: all 0.3s;
     }
     &__expense{
         margin: 10px 0;
@@ -14,5 +14,16 @@
         display: flex;
         justify-content: space-between;
         border-radius: 10px;
+    }
+
+    &__hideForm{
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s;
+    }
+    &__showForm{
+        max-height: initial;
+        overflow: initial;
+        transition: all 0.3s;
     }
 }

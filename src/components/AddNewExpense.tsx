@@ -12,8 +12,9 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
 
  
 
-    const dialogRef = useRef<HTMLDialogElement>(null)
 
+
+    const [showForm, setShowForm] = useState(false)
     const [inputs, setInputs] = useState({expense:'',amount:0, budgetId:budgetId})
 
 
@@ -28,38 +29,17 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
     const { setExpenses } = expenseContext;
 
 
-    const closeModalOnEscapeClick = (e:KeyboardEvent)=>{
-        if (e.key === 'Escape') {
-            e.preventDefault()
-            setModalExpenseOpen(false)
-          }
-    }
 
 
-    //handle closing dialog on escape keyDown
-    useEffect(()=>{
-     
-        dialogRef.current?.addEventListener('keydown', closeModalOnEscapeClick);
-        return () => {
-          dialogRef.current?.removeEventListener('keydown', closeModalOnEscapeClick);
-        };
-    },[])
 
 
-    useEffect(() => {
-        if(modaExpenseOpen){
-            dialogRef.current?.showModal()
+    const toggleForm = ()=>{
+        if(showForm){
+             setShowForm(false)
         }else{
-            dialogRef.current?.close()
+            setShowForm(true)
         }
-
-    }, [modaExpenseOpen])
-
-
-    const openModal = ()=>{
-        setModalExpenseOpen(true)
     }
-
 
 
     
@@ -117,13 +97,14 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
 
   return (
 
-    <dialog className='dialog' ref={dialogRef}>
-            
-    <button className='dialog__closeBtn btn' onClick={()=>setModalExpenseOpen(false)}>X</button>
-
-    <h3>Add new expense</h3>
-
-        <form action="">
+  
+    <>
+    
+        <button data-belong='true' className='budgets__addNew' onClick={toggleForm}>Add expense</button>
+        <form
+         action=""
+         className={!showForm?'expenses__hideForm':'expenses__showForm'}
+         >
             <input 
                 type="text" 
                 name='expense' 
@@ -143,8 +124,9 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
             <button className='btn' onClick={submitBudget}>Add</button>
         </form>
 
-    </dialog>
-  
+    </>
+
+
 
 
   )
