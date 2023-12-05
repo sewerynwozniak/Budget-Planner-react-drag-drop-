@@ -114,7 +114,7 @@ const { setBudgets } = budgetContext;
 
         <dialog className='dialog' ref={dialogRef}>
             
-            <button className='dialog__closeBtn btn' onClick={()=>setModalOpen(false)}>X</button>
+            <button className='dialog__closeBtn btn btn--red' onClick={()=>setModalOpen(false)}>X</button>
 
             <h3>Add budget</h3>
 
@@ -147,7 +147,7 @@ const { setBudgets } = budgetContext;
 
         </dialog>
 
-        <button className='btn' onClick={openModal}>Add New Budget</button>
+        <button className='addNewBudget__btn btn btn--blue' onClick={openModal}>Add New Budget</button>
     </div>
   )
 }

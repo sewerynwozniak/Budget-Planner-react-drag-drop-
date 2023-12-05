@@ -24,6 +24,9 @@ interface BudgetProviderProps {
 
 export const BudgetContext = createContext<BudgetContextTypes |null>(null)
 
+
+
+
 const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
 
 
@@ -66,9 +69,7 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
   },[])
 
 
-  const getRelatedExpenses = ()=>{
-    
-  }
+
     
   
   return (

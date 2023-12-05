@@ -2,7 +2,9 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { BudgetType } from '../contexts/BudgetContext'
 import { BudgetContext } from '../contexts/BudgetContext'
 import AddNewExpense from './AddNewExpense'
-import { filterExpenses } from '../contexts/ExpenseContext'
+import { ExpenseType, ExpenseContext } from '../contexts/ExpenseContext'
+import Expense from './Expense'
+
 
 
 
@@ -20,6 +22,8 @@ useEffect(() => {
     setIsHovered(false);
 }, [details]);
 
+
+//budget context
 
   const budgetContext = useContext(BudgetContext);
   //type guard to check potential false value
@@ -39,6 +43,18 @@ useEffect(() => {
       deleteBudgetFromLocalStorage(filteredBudgets)
     }
   }
+
+
+  //expense context
+  const expenseContext = useContext(ExpenseContext);
+  //type guard to check potential false value
+
+  if (!expenseContext) {
+      return false; 
+  }
+
+  const { expenses, setExpenses } = expenseContext;
+
 
 
 
@@ -94,14 +110,17 @@ useEffect(() => {
   const [modaExpenseOpen, setModalExpenseOpen] = useState(false)
 
   
+  const filterExpenses = (budgetIdArg:number)=>{
+    const allExpenses: ExpenseType[]|null = expenses
+    return allExpenses?.filter(expense=>expense.budgetId == budgetIdArg)
+   }
   
 
   const generatExpense = ()=>{
-    return filterExpenses(details.id).map(expense=>(
-      <div className='expenses__expense' key={expense.id}>
-        <p>{expense.title}</p>
-        <p>{expense.amount}</p>
-      </div>
+    return filterExpenses(details.id)?.map(expense=>(
+
+      <Expense details={expense}/>
+
     ))
   }
 

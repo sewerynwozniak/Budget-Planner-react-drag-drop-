@@ -12,8 +12,6 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
 
  
 
-
-
     const [showForm, setShowForm] = useState(false)
     const [inputs, setInputs] = useState({expense:'',amount:0, budgetId:budgetId})
 
@@ -93,14 +91,11 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
 
 
 
-
-
   return (
 
-  
     <>
     
-        <button data-belong='true' className='budgets__addNew' onClick={toggleForm}>Add expense</button>
+        <button data-belong='true' className='budgets__addNew btn  btn--blue' onClick={toggleForm}>Add expense</button>
         <form
          action=""
          className={!showForm?'expenses__hideForm':'expenses__showForm'}
