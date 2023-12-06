@@ -26,7 +26,6 @@ export const BudgetContext = createContext<BudgetContextTypes |null>(null)
 
 
 
-
 const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
 
 

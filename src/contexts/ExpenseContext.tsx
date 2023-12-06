@@ -16,7 +16,7 @@ export type ExpenseType={
 export type ExpenseContextTypes = {
     expenses: ExpenseType[] | null;
     setExpenses: React.Dispatch<React.SetStateAction<ExpenseType[] | null>>
-
+    deleteExpense:(budgetIdArg: number) => void
 }
 
 
@@ -46,6 +46,20 @@ const ExpenseProvider: React.FC<ExpenseProviderProps> = ({children}) => {
 
 
 
+       const deleteExpense = (expenseId:number)=>{
+
+        const filteredExpenses = expenses?.filter(el=>el.id!=expenseId)
+        if(filteredExpenses){
+          setExpenses(filteredExpenses)
+          localStorage.setItem('expenseData', JSON.stringify(filteredExpenses));
+
+        }
+
+       }
+
+
+
+
       useEffect(()=>{
       
        setExpenses(getDataFromLocalStorage())
@@ -56,7 +70,7 @@ const ExpenseProvider: React.FC<ExpenseProviderProps> = ({children}) => {
 
   return (
 
-    <ExpenseContext.Provider value={{expenses, setExpenses}}>
+    <ExpenseContext.Provider value={{expenses, setExpenses, deleteExpense}}>
         {children}
     </ExpenseContext.Provider>
  

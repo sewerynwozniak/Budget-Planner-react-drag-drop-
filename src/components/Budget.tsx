@@ -40,7 +40,8 @@ useEffect(() => {
     if (budgets) {
       const filteredBudgets = budgets.filter(budget => budget.id !== id);
       setBudgets(filteredBudgets);
-      deleteBudgetFromLocalStorage(filteredBudgets)
+
+      localStorage.setItem('budgetData', JSON.stringify(filteredBudgets));
     }
   }
 
@@ -56,11 +57,6 @@ useEffect(() => {
   const { expenses, setExpenses } = expenseContext;
 
 
-
-
-  const deleteBudgetFromLocalStorage = (filteredBudgets:BudgetType[])=>{
-    localStorage.setItem('budgetData', JSON.stringify(filteredBudgets));
-  }
 
 
   const handleOnDragStart =(index:number, )=>{
@@ -119,7 +115,7 @@ useEffect(() => {
   const generatExpense = ()=>{
     return filterExpenses(details.id)?.map(expense=>(
 
-      <Expense details={expense}/>
+      <Expense key={expense.id} details={expense}/>
 
     ))
   }
