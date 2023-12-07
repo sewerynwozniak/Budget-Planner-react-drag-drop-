@@ -4,6 +4,7 @@ import { BudgetContext } from '../contexts/BudgetContext'
 import AddNewExpense from './AddNewExpense'
 import { ExpenseType, ExpenseContext } from '../contexts/ExpenseContext'
 import Expense from './Expense'
+import ExpensesBar from './ExpensesBar'
 
 
 
@@ -112,6 +113,11 @@ useEffect(() => {
    }
   
 
+
+   const sumBudgetExpenses = filterExpenses(details.id)?.reduce((prev, cur)=>prev+cur.amount,0)||0
+
+
+
   const generatExpense = ()=>{
     return filterExpenses(details.id)?.map(expense=>(
 
@@ -140,7 +146,9 @@ useEffect(() => {
 
       <span data-belong='true'>limit: {details?.limit}</span>
 
+      {details.limit?<ExpensesBar currentExpenses={sumBudgetExpenses} limitExpenses={details.limit}/>:''}
       
+      <p>summed expenses: {sumBudgetExpenses}</p>
       
       <AddNewExpense budgetId={details.id} modaExpenseOpen={modaExpenseOpen} setModalExpenseOpen={setModalExpenseOpen}/>
       <div className="expenses__wrapper">

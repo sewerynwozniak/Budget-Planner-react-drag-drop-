@@ -8,14 +8,15 @@ type AddNewExpenseProps={
     budgetId:number
   }
 
+
 const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewExpenseProps) => {
 
  
-
     const [showForm, setShowForm] = useState(false)
     const [inputs, setInputs] = useState({expense:'',amount:0, budgetId:budgetId})
 
 
+    console.log(inputs)
 
     const expenseContext = useContext(ExpenseContext);
     //type guard to check potential false value
@@ -25,8 +26,6 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
     }
 
     const { setExpenses } = expenseContext;
-
-
 
 
 
@@ -56,7 +55,8 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
              let combinedData = retrievedData
              combinedData.push(data)
             localStorage.setItem('expenseData', JSON.stringify(combinedData));
-        };
+
+    };
 
 
 
@@ -73,6 +73,8 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
           };
       
 
+          console.log(newExpense)
+
         setExpenses(prev=>{
             if(prev==null){
                 return [newExpense]
@@ -82,10 +84,8 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
         })
     
         saveDataToLocalStorage(newExpense)
-
-
-
         setModalExpenseOpen(false)
+
     }
 
 
@@ -96,9 +96,8 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
     <>
     
         <button data-belong='true' className='budgets__addNew btn  btn--blue' onClick={toggleForm}>Add expense</button>
-        <form
-         action=""
-         className={!showForm?'expenses__hideForm':'expenses__showForm'}
+        <form    
+         className={`expenses__form ${!showForm?'expenses__hideForm':'expenses__showForm'}`}
          >
             <input 
                 type="text" 
@@ -109,14 +108,13 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
     
             <input 
                 type="number" 
-                onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.value}))} 
+                onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.valueAsNumber}))}           
                 name="amount" 
-                id="" 
                 placeholder='amount'
             />
             
     
-            <button className='btn' onClick={submitBudget}>Add</button>
+            <button className='btn btn--blue' onClick={submitBudget}>Add</button>
         </form>
 
     </>

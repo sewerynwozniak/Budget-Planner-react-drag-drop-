@@ -24,14 +24,16 @@
         align-items: center;
     }
 
+    &__form{
+        transition:all 0.3s ease; /* Transition effect */
+    }
     &__hideForm{
+        overflow: hidden; 
         max-height: 0;
-        overflow: hidden;
-        transition: all 0.3s;
+   
     }
     &__showForm{
-        max-height: initial;
-        overflow: initial;
-        transition: all 0.3s;
+        max-height: 50px;
+   
     }
 }

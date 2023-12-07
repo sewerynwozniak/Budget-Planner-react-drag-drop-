@@ -3,6 +3,8 @@ import { ExpenseType } from '../contexts/ExpenseContext'
 import { useContext } from 'react'
 import { ExpenseContext } from '../contexts/ExpenseContext'
 
+
+
 type ExpenseDetailsType={
     details:ExpenseType
 }
