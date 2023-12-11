@@ -16,7 +16,6 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
     const [inputs, setInputs] = useState({expense:'',amount:0, budgetId:budgetId})
 
 
-    console.log(inputs)
 
     const expenseContext = useContext(ExpenseContext);
     //type guard to check potential false value
@@ -73,7 +72,6 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
           };
       
 
-          console.log(newExpense)
 
         setExpenses(prev=>{
             if(prev==null){
@@ -84,6 +82,7 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
         })
     
         saveDataToLocalStorage(newExpense)
+        setInputs({expense:'',amount:0, budgetId:budgetId})
         setModalExpenseOpen(false)
 
     }
@@ -104,6 +103,7 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
                 name='expense' 
                 onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.value}))} 
                 placeholder='expense name'
+                value={inputs.expense}
             />
     
             <input 
@@ -111,6 +111,7 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
                 onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.valueAsNumber}))}           
                 name="amount" 
                 placeholder='amount'
+                value={inputs.amount}
             />
             
     

@@ -19,7 +19,7 @@ const Budgets = () => {
 
   const displayBudgets = ()=>{
    return budgets? budgets?.map((budget, index)=>(
-      <Budget key={budget.id} index={index} details={budget} />
+      <Budget  index={index} details={budget} />
   )):null
   }
 

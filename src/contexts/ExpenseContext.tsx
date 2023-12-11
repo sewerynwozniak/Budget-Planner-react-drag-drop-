@@ -15,8 +15,11 @@ export type ExpenseType={
 
 export type ExpenseContextTypes = {
     expenses: ExpenseType[] | null;
+    draggedExpenseId: React.MutableRefObject<number>
+    draggedOverExpense: React.MutableRefObject<number>
     setExpenses: React.Dispatch<React.SetStateAction<ExpenseType[] | null>>
     deleteExpense:(budgetIdArg: number) => void
+    expenseIsDragged:React.MutableRefObject<boolean>
 }
 
 
@@ -28,6 +31,12 @@ const ExpenseProvider: React.FC<ExpenseProviderProps> = ({children}) => {
 
 
    const [expenses, setExpenses] = useState<ExpenseType[]|null>(null);
+
+
+   const draggedExpenseId = useRef(0)
+   const draggedOverExpense  = useRef(0)
+    //state to discriminate dragging budget from
+    const expenseIsDragged = useRef(false)
 
 
 
@@ -70,8 +79,8 @@ const ExpenseProvider: React.FC<ExpenseProviderProps> = ({children}) => {
 
   return (
 
-    <ExpenseContext.Provider value={{expenses, setExpenses, deleteExpense}}>
-        {children}
+    <ExpenseContext.Provider value={{expenses, draggedExpenseId, draggedOverExpense, setExpenses, deleteExpense, expenseIsDragged}}>
+        {children},
     </ExpenseContext.Provider>
  
   )

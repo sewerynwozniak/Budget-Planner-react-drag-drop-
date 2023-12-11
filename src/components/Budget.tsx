@@ -17,8 +17,6 @@ const [isDragged, setIsDragged] = useState(false)
 
 
 
-
-
 useEffect(() => {
     setIsHovered(false);
 }, [details]);
@@ -32,7 +30,7 @@ useEffect(() => {
     return false; 
   }
   
-  const { budgets, setBudgets, draggedBudget, draggedOverBudget, dropBudget } = budgetContext;
+  const { budgets, setBudgets, draggedBudget, draggedOverBudget, dropBudget, budgetIsDragged } = budgetContext;
 
 
   const deleteBudget = (id:number)=>{
@@ -55,42 +53,56 @@ useEffect(() => {
       return false; 
   }
 
-  const { expenses, setExpenses } = expenseContext;
+  const { expenses, setExpenses, expenseIsDragged, draggedExpenseId } = expenseContext;
 
 
 
 
-  const handleOnDragStart =(index:number, )=>{
-
-    draggedBudget.current=index
-    setIsDragged(true)
-   
-}
 
 
-  const handleOnEnter =(index:number)=>{
+  const handleBudgetOnDragStart =(e:React.DragEvent<HTMLDivElement>,index:number, )=>{
+    
+    const target = e.target as HTMLDivElement; 
 
+    if(target.getAttribute('data-budget')){
+      budgetIsDragged.current = true
+     
+      draggedBudget.current=index
+      setIsDragged(true)
+    }
+ 
+  }
+
+
+
+  const handleBudgetOnEnter =(e:React.DragEvent<HTMLDivElement>,index:number)=>{
+    
+    if(budgetIsDragged.current){
       draggedOverBudget.current=index
       setIsHovered(true)
+    }
      
   }
 
 
-  const handleOnLeave =(e:any)=>{
+  const handleOnBudgetLeave =(e:any)=>{
 
-    if(!e.relatedTarget.getAttribute('data-belong')){
+    if(!e.relatedTarget.getAttribute('data-budget')){
       setIsHovered(false)
     }
 
   }
 
-  const handleOnDragEnd = ()=>{
-  
+  const handleOnBudgetDragEnd = ()=>{
+    budgetIsDragged.current=false
     setIsHovered(false)
     setIsDragged(false)
-    dropBudget()
+  
   }
 
+
+
+  //expenses
 
   const addExpense = (id:number)=>{ 
     setModalExpenseOpen(true)
@@ -121,9 +133,47 @@ useEffect(() => {
   const generatExpense = ()=>{
     return filterExpenses(details.id)?.map(expense=>(
 
-      <Expense key={expense.id} details={expense}/>
+      <Expense key={expense.id} details={expense} index={index}/>
 
     ))
+  }
+
+
+  const handleExpenseOnEnter =(e:React.DragEvent<HTMLDivElement>,index:number)=>{
+    
+
+    if(expenseIsDragged.current){
+      console.log('dragujemy na expense', details.id)
+      draggedOverBudget.current=details.id
+      setIsHovered(true)
+    }
+     
+  }
+
+  const handleOnExpenseDragEnd =(e:any)=>{
+
+    console.log(e.target)
+    console.log(expenses)
+    console.log(draggedExpenseId)
+
+
+
+    setExpenses(prev=>{
+     
+      if (prev === null) {
+        return null; // Return null if prev is null
+      }
+    
+      // Perform operations on prev assuming it's not null
+      return prev.map(el => {
+        if (el.id === draggedExpenseId.current) {
+          return {...el, budgetId:draggedOverBudget.current,};
+        }
+        return el;
+      });
+    })
+
+
   }
 
 
@@ -132,26 +182,31 @@ useEffect(() => {
       style={handleStyleOnBudget}
       className='budgets__budget'
       data-index={index}
-      data-belong='true'
+      data-budget='true'
       draggable 
-      onDragStart={(e:React.DragEvent<HTMLDivElement>)=>handleOnDragStart( Number(e.currentTarget.getAttribute('data-index')))}
-      onDragEnter={(e:React.DragEvent<HTMLDivElement>)=>handleOnEnter(Number(e.currentTarget.getAttribute('data-index')))}
-      onDragLeave={handleOnLeave}
-      onDragEnd={handleOnDragEnd}
+      onDragStart={(e)=>handleBudgetOnDragStart(e,Number(e.currentTarget.getAttribute('data-index')))}
+      onDragEnter={(e)=>handleBudgetOnEnter(e,Number(e.currentTarget.getAttribute('data-index')))}
+      onDragLeave={handleOnBudgetLeave}
+      onDragEnd={handleOnBudgetDragEnd}
       onDragOver={e=>e.preventDefault()}
 
     >
-      <button data-belong='true' className='budgets__delete' onClick={()=>deleteBudget(details.id)}>X</button>
-      <h3 data-belong='true'>{details?.title}</h3>
+      <button data-budget='true' className='budgets__delete' onClick={()=>deleteBudget(details.id)}>X</button>
+      <h3 data-budget='true'>{details?.title}</h3>
 
-      <span data-belong='true'>limit: {details?.limit}</span>
+      <span data-budget='true'>limit: {details?.limit}</span>
 
       {details.limit?<ExpensesBar currentExpenses={sumBudgetExpenses} limitExpenses={details.limit}/>:''}
       
       <p>summed expenses: {sumBudgetExpenses}</p>
       
       <AddNewExpense budgetId={details.id} modaExpenseOpen={modaExpenseOpen} setModalExpenseOpen={setModalExpenseOpen}/>
-      <div className="expenses__wrapper">
+
+      <div className="expenses__wrapper"
+        onDragEnter={(e)=>handleExpenseOnEnter(e,Number(e.currentTarget.getAttribute('data-index')))}
+        onDragEnd={handleOnExpenseDragEnd}
+        onDragOver={e=>e.preventDefault()}
+      >
         {generatExpense()}
       </div>
     </div>

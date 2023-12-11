@@ -9,12 +9,12 @@ type ExpensesBarType={
 const ExpensesBar = ({currentExpenses, limitExpenses}:ExpensesBarType) => {
 
 
-    const percentageOfExpenses = (currentExpenses/limitExpenses)*100
+    const percentageOfExpenses = Math.min((currentExpenses/limitExpenses)*100, 100)
 
     let expensesBarStyling={
 
         width:`${percentageOfExpenses}%`,
-        backgroundColor:'#aaaaaa'
+        backgroundColor:'#aaa'
    
     }
 

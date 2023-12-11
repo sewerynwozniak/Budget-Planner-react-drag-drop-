@@ -13,6 +13,7 @@ export type BudgetContextTypes = {
   draggedBudget: React.MutableRefObject<number>
   draggedOverBudget: React.MutableRefObject<number>
   dropBudget: ()=>void
+  budgetIsDragged:React.MutableRefObject<boolean>
 }
 
 
@@ -31,11 +32,13 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
 
   const [budgets, setBudgets] = useState<BudgetType[]|null>(null)
 
-
-
   const draggedBudget = useRef(0)
   const draggedOverBudget = useRef(0)
 
+
+  const budgetIsDragged = useRef(false)
+  //state to discriminate dragging budget from
+  //const [budgetIsDragged, setBudgetIsDragged]=useState(false)
 
 
   const dropBudget = ()=>{
@@ -73,7 +76,7 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
   
   return (
 
-    <BudgetContext.Provider value={{budgets, setBudgets, draggedBudget, draggedOverBudget, dropBudget}}>
+    <BudgetContext.Provider value={{budgets, setBudgets, draggedBudget, draggedOverBudget, dropBudget, budgetIsDragged}}>
         {children}
     </BudgetContext.Provider>
   )
