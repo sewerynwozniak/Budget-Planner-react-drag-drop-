@@ -35,10 +35,10 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
   const draggedBudget = useRef(0)
   const draggedOverBudget = useRef(0)
 
-
-  const budgetIsDragged = useRef(false)
   //state to discriminate dragging budget from
-  //const [budgetIsDragged, setBudgetIsDragged]=useState(false)
+  const budgetIsDragged = useRef(false)
+  
+
 
 
   const dropBudget = ()=>{

@@ -15,6 +15,8 @@ const Budget:React.FC<{ details: BudgetType, index:number }> = ({details, index}
 const [isHovered, setIsHovered] = useState(false)
 const [isDragged, setIsDragged] = useState(false)
 
+const [showExpense, setShowExpense] = useState(false)
+const [isExpenseHovered, setIsExpenseHovered] = useState(false)
 
 
 useEffect(() => {
@@ -69,6 +71,7 @@ useEffect(() => {
      
       draggedBudget.current=index
       setIsDragged(true)
+      console.log(budgetIsDragged.current)
     }
  
   }
@@ -90,13 +93,21 @@ useEffect(() => {
     if(!e.relatedTarget.getAttribute('data-budget')){
       setIsHovered(false)
     }
-
   }
 
-  const handleOnBudgetDragEnd = ()=>{
-    budgetIsDragged.current=false
-    setIsHovered(false)
-    setIsDragged(false)
+
+  const handleOnBudgetDragEnd = (e:any)=>{
+    
+
+
+    if(e.target.getAttribute('data-budget')){
+
+      budgetIsDragged.current=false
+      setIsHovered(false)
+      setIsDragged(false)
+      dropBudget()
+    }
+
   
   }
 
@@ -141,22 +152,16 @@ useEffect(() => {
 
   const handleExpenseOnEnter =(e:React.DragEvent<HTMLDivElement>,index:number)=>{
     
-
     if(expenseIsDragged.current){
-      console.log('dragujemy na expense', details.id)
       draggedOverBudget.current=details.id
-      setIsHovered(true)
+      setIsExpenseHovered(true)
     }
-     
+    
   }
 
+
+
   const handleOnExpenseDragEnd =(e:any)=>{
-
-    console.log(e.target)
-    console.log(expenses)
-    console.log(draggedExpenseId)
-
-
 
     setExpenses(prev=>{
      
@@ -174,6 +179,28 @@ useEffect(() => {
     })
 
 
+  }
+
+
+
+    const handleOnExpenseLeave =(e:any)=>{
+
+      // if(!e.relatedTarget.getAttribute('data-expense')){
+      //   setIsExpenseHovered(false)
+      // }
+      
+      setIsExpenseHovered(false)
+    }
+
+    const toggleExpenses =()=>{
+      setShowExpense(prev=>!prev)
+    }
+
+
+  const expenseWrapperStyle={
+    outline: isExpenseHovered ? '1px solid red' : 'none',
+    height:showExpense?'auto':'0',
+    overflow:showExpense?'auto':'hidden'
   }
 
 
@@ -202,10 +229,16 @@ useEffect(() => {
       
       <AddNewExpense budgetId={details.id} modaExpenseOpen={modaExpenseOpen} setModalExpenseOpen={setModalExpenseOpen}/>
 
+      <button data-belong='true' className='budgets__addNew btn  btn--blue' onClick={toggleExpenses}>
+        {showExpense?'Hide':'Show'} expense
+      </button>
+
       <div className="expenses__wrapper"
+        style={expenseWrapperStyle}
         onDragEnter={(e)=>handleExpenseOnEnter(e,Number(e.currentTarget.getAttribute('data-index')))}
         onDragEnd={handleOnExpenseDragEnd}
         onDragOver={e=>e.preventDefault()}
+        onDragLeave={handleOnExpenseLeave}
       >
         {generatExpense()}
       </div>
