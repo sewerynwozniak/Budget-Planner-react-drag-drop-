@@ -15,7 +15,7 @@ const Budget:React.FC<{ details: BudgetType, index:number }> = ({details, index}
 const [isHovered, setIsHovered] = useState(false)
 const [isDragged, setIsDragged] = useState(false)
 
-const [showExpense, setShowExpense] = useState(false)
+const [showExpense, setShowExpense] = useState(true)
 const [isExpenseHovered, setIsExpenseHovered] = useState(false)
 
 
@@ -144,7 +144,7 @@ useEffect(() => {
   const generatExpense = ()=>{
     return filterExpenses(details.id)?.map(expense=>(
 
-      <Expense key={expense.id} details={expense} index={index}/>
+      <Expense key={expense.id} details={expense} index={index} showExpense={showExpense}/>
 
     ))
   }
@@ -185,11 +185,10 @@ useEffect(() => {
 
     const handleOnExpenseLeave =(e:any)=>{
 
-      // if(!e.relatedTarget.getAttribute('data-expense')){
-      //   setIsExpenseHovered(false)
-      // }
-      
-      setIsExpenseHovered(false)
+      if(!e.relatedTarget.getAttribute('data-expense')){  
+        setIsExpenseHovered(false)
+      }
+        
     }
 
     const toggleExpenses =()=>{
@@ -199,7 +198,7 @@ useEffect(() => {
 
   const expenseWrapperStyle={
     outline: isExpenseHovered ? '1px solid red' : 'none',
-    height:showExpense?'auto':'0',
+    maxHeight:showExpense?'100vh':'0',
     overflow:showExpense?'auto':'hidden'
   }
 
@@ -234,6 +233,7 @@ useEffect(() => {
       </button>
 
       <div className="expenses__wrapper"
+        data-expense='true'
         style={expenseWrapperStyle}
         onDragEnter={(e)=>handleExpenseOnEnter(e,Number(e.currentTarget.getAttribute('data-index')))}
         onDragEnd={handleOnExpenseDragEnd}

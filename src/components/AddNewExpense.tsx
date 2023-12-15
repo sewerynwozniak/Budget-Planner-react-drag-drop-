@@ -104,6 +104,7 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
                 onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.value}))} 
                 placeholder='expense name'
                 value={inputs.expense}
+                tabIndex={showForm?0:-1}
             />
     
             <input 
@@ -112,10 +113,11 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
                 name="amount" 
                 placeholder='amount'
                 value={inputs.amount}
+                tabIndex={showForm?0:-1}
             />
             
     
-            <button className='btn btn--blue' onClick={submitBudget}>Add</button>
+            <button tabIndex={showForm?0:-1} className='btn btn--blue' onClick={submitBudget}>Add</button>
         </form>
 
     </>
