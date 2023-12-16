@@ -6,13 +6,14 @@ type AddNewExpenseProps={
     modaExpenseOpen: boolean;
     setModalExpenseOpen:React.Dispatch<React.SetStateAction<boolean>>;
     budgetId:number
+    showForm:boolean
   }
 
 
-const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewExpenseProps) => {
+const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId, showForm}:AddNewExpenseProps) => {
 
  
-    const [showForm, setShowForm] = useState(false)
+    
     const [inputs, setInputs] = useState({expense:'',amount:0, budgetId:budgetId})
 
 
@@ -26,16 +27,6 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
 
     const { setExpenses } = expenseContext;
 
-
-
-
-    const toggleForm = ()=>{
-        if(showForm){
-             setShowForm(false)
-        }else{
-            setShowForm(true)
-        }
-    }
 
 
     
@@ -94,7 +85,7 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId}:AddNewEx
 
     <>
     
-        <button data-belong='true' className='budgets__addNew btn  btn--blue' onClick={toggleForm}>Add expense</button>
+        
         <form    
          className={`expenses__form ${!showForm?'expenses__hideForm':'expenses__showForm'}`}
          >

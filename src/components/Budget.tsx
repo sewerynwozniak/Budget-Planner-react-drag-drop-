@@ -18,6 +18,7 @@ const [isDragged, setIsDragged] = useState(false)
 const [showExpense, setShowExpense] = useState(true)
 const [isExpenseHovered, setIsExpenseHovered] = useState(false)
 
+const [showForm, setShowForm] = useState(false)
 
 useEffect(() => {
     setIsHovered(false);
@@ -178,7 +179,6 @@ useEffect(() => {
       });
     })
 
-
   }
 
 
@@ -191,9 +191,12 @@ useEffect(() => {
         
     }
 
-    const toggleExpenses =()=>{
-      setShowExpense(prev=>!prev)
-    }
+
+
+
+    useEffect(()=>{
+      setIsExpenseHovered(false)
+    },[expenses])
 
 
   const expenseWrapperStyle={
@@ -201,6 +204,10 @@ useEffect(() => {
     maxHeight:showExpense?'100vh':'0',
     overflow:showExpense?'auto':'hidden'
   }
+
+
+
+
 
 
   return (
@@ -226,11 +233,14 @@ useEffect(() => {
       
       <p>summed expenses: {sumBudgetExpenses}</p>
       
-      <AddNewExpense budgetId={details.id} modaExpenseOpen={modaExpenseOpen} setModalExpenseOpen={setModalExpenseOpen}/>
+      <div className="budgets__btnsWrapper">
+        <button data-belong='true' className='budgets__addNew btn  btn--blue' onClick={e=>setShowForm(prev=>!prev)}>Add expense</button>     
+        <button data-belong='true' className='budgets__addNew btn  btn--blue' onClick={()=>setShowExpense(prev=>!prev)}>
+          {showExpense?'Hide':'Show'} expenses
+        </button>
+      </div>
 
-      <button data-belong='true' className='budgets__addNew btn  btn--blue' onClick={toggleExpenses}>
-        {showExpense?'Hide':'Show'} expense
-      </button>
+      <AddNewExpense showForm={showForm} budgetId={details.id} modaExpenseOpen={modaExpenseOpen} setModalExpenseOpen={setModalExpenseOpen}/>
 
       <div className="expenses__wrapper"
         data-expense='true'

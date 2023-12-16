@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ExpenseType } from '../contexts/ExpenseContext'
 import { useContext } from 'react'
 import { ExpenseContext } from '../contexts/ExpenseContext'
@@ -36,10 +36,13 @@ const Expense = ({details, showExpense}:ExpenseDetailsType) => {
       
   }
   
- 
+    useEffect(()=>{
+      //setIsDragged to false 
+      setIsDragged(false)
+    },[details])
 
   return (
-    <div data-expense='true' style={{outline:isDragged?'1px solid #4e2c2c':'none'}} draggable className='expenses__expense'
+    <div data-expense='true' style={{outline:isDragged?'1px solid #b72929':'none'}} draggable className='expenses__expense'
       onDragStart={(e)=>handleOnDragStart(e,Number(e.currentTarget.getAttribute('data-index')))}
      >
         <button tabIndex={showExpense?0:-1} data-expense='true' onClick={()=>deleteExpense(details.id)} className='btn btn--red expenses__closeBtn'>
