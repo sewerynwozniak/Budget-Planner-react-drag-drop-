@@ -142,7 +142,7 @@ const { setBudgets } = budgetContext;
                     />
                 )}
 
-                <button className='btn' onClick={submitBudget}>Add</button>
+            <button className='addNewBudget__submit btn btn--blue' onClick={submitBudget}>Add</button>
             </form>
 
         </dialog>

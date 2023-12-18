@@ -170,16 +170,19 @@ useEffect(() => {
         return null; // Return null if prev is null
       }
     
-      // Perform operations on prev assuming it's not null
-      return prev.map(el => {
-        if (el.id === draggedExpenseId.current) {
-          return {...el, budgetId:draggedOverBudget.current,};
+      //Perform operations on prev assuming it's not null
+      const changedExpenses = prev.map(el => {
+        if (el.id === draggedExpenseId.current) {    
+          return {...el, budgetId:draggedOverBudget.current};
         }
         return el;
       });
+      //move changes expense to the end of the array
+      return [...changedExpenses.filter(el=>el.id!=draggedExpenseId.current), ...changedExpenses.filter(el=>el.id==draggedExpenseId.current)]
     })
 
   }
+
 
 
 
@@ -195,6 +198,7 @@ useEffect(() => {
 
 
     useEffect(()=>{
+      console.log(expenses)
       setIsExpenseHovered(false)
     },[expenses])
 
@@ -202,6 +206,8 @@ useEffect(() => {
   const expenseWrapperStyle={
     outline: isExpenseHovered ? '1px solid red' : 'none',
     maxHeight:showExpense?'100vh':'0',
+    padding:showExpense?'10px':'0px',
+    border:showExpense?'1px solid #4177c3':'1px solid transparent',
     overflow:showExpense?'auto':'hidden'
   }
 

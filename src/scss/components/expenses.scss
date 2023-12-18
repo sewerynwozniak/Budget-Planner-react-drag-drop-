@@ -13,7 +13,6 @@
         padding: 5px;
         display: flex;
         flex-direction: column;
-        //justify-content: space-between;
         border-radius: 10px;
     }
     &__closeBtn{
@@ -50,5 +49,11 @@
     &__showForm{
         max-height: 100px;
    
+    }
+
+    &__submit{
+        margin: 10px;
+        padding: 5px;
+        width: 90%;
     }
 }

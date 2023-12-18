@@ -37,7 +37,6 @@ const Expense = ({details, showExpense}:ExpenseDetailsType) => {
   }
   
     useEffect(()=>{
-      //setIsDragged to false 
       setIsDragged(false)
     },[details])
 

@@ -14,7 +14,7 @@ const ExpensesBar = ({currentExpenses, limitExpenses}:ExpensesBarType) => {
     let expensesBarStyling={
 
         width:`${percentageOfExpenses}%`,
-        backgroundColor:'#aaa'
+        backgroundColor:percentageOfExpenses>=100?'#cc1717':'#6c6565'
    
     }
 

@@ -13,6 +13,7 @@ export type ExpenseType={
     budgetId:number
 }
 
+
 export type ExpenseContextTypes = {
     expenses: ExpenseType[] | null;
     draggedExpenseId: React.MutableRefObject<number>
@@ -35,7 +36,7 @@ const ExpenseProvider: React.FC<ExpenseProviderProps> = ({children}) => {
 
    const draggedExpenseId = useRef(0)
    const draggedOverExpense  = useRef(0)
-    //state to discriminate dragging budget from
+    //state to discriminate dragging budget from expense
     const expenseIsDragged = useRef(false)
 
 

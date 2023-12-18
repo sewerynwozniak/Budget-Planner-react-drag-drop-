@@ -15,7 +15,7 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId, showForm
  
     
     const [inputs, setInputs] = useState({expense:'',amount:0, budgetId:budgetId})
-
+    const inputRef = useRef<HTMLInputElement | null>(null)
 
 
     const expenseContext = useContext(ExpenseContext);
@@ -79,19 +79,25 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId, showForm
     }
 
 
+    useEffect(()=>{
+        if(showForm){
+            inputRef.current?.focus()
+        }
+    },[showForm])
+
 
 
   return (
 
     <>
-    
-        
+      
         <form    
          className={`expenses__form ${!showForm?'expenses__hideForm':'expenses__showForm'}`}
          >
             <input 
                 type="text" 
                 name='expense' 
+                ref={inputRef}
                 onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.value}))} 
                 placeholder='expense name'
                 value={inputs.expense}
@@ -108,7 +114,7 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId, showForm
             />
             
     
-            <button tabIndex={showForm?0:-1} className='btn btn--blue' onClick={submitBudget}>Add</button>
+            <button tabIndex={showForm?0:-1} className='expenses__submit btn btn--blue' onClick={submitBudget}>Add</button>
         </form>
 
     </>
