@@ -5,6 +5,7 @@ import AddNewExpense from './AddNewExpense'
 import { ExpenseType, ExpenseContext } from '../contexts/ExpenseContext'
 import Expense from './Expense'
 import ExpensesBar from './ExpensesBar'
+import EditableBudgetTitle from './EditableBudgetTitle'
 
 
 
@@ -72,7 +73,6 @@ useEffect(() => {
      
       draggedBudget.current=index
       setIsDragged(true)
-      console.log(budgetIsDragged.current)
     }
  
   }
@@ -185,7 +185,6 @@ useEffect(() => {
 
 
 
-
     const handleOnExpenseLeave =(e:any)=>{
 
       if(!e.relatedTarget.getAttribute('data-expense')){  
@@ -193,7 +192,6 @@ useEffect(() => {
       }
         
     }
-
 
 
 
@@ -211,18 +209,27 @@ useEffect(() => {
     overflow:showExpense?'auto':'hidden'
   }
 
+  //
+
+    const [isClicked, setIsClicked]=useState(false)
 
 
+    const demoFunc=(arg: boolean | ((prevState: boolean) => boolean)) => {
+   
+      setIsClicked(arg)
+    }
 
+   
 
-
+  //
   return (
     <div 
       style={handleStyleOnBudget}
       className='budgets__budget'
       data-index={index}
       data-budget='true'
-      draggable 
+      draggable={!isClicked}
+      
       onDragStart={(e)=>handleBudgetOnDragStart(e,Number(e.currentTarget.getAttribute('data-index')))}
       onDragEnter={(e)=>handleBudgetOnEnter(e,Number(e.currentTarget.getAttribute('data-index')))}
       onDragLeave={handleOnBudgetLeave}
@@ -231,7 +238,11 @@ useEffect(() => {
 
     >
       <button data-budget='true' className='budgets__delete' onClick={()=>deleteBudget(details.id)}>X</button>
-      <h3 data-budget='true'>{details?.title}</h3>
+
+
+      <EditableBudgetTitle title={details?.title} setIsClicked={demoFunc}/>
+
+
 
       <span data-budget='true'>limit: {details?.limit}</span>
 

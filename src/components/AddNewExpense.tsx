@@ -9,12 +9,18 @@ type AddNewExpenseProps={
     showForm:boolean
   }
 
+  type inputType={
+    expense: string;
+    amount: number | null;
+    budgetId: number;
+  }
+
 
 const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId, showForm}:AddNewExpenseProps) => {
 
  
     
-    const [inputs, setInputs] = useState({expense:'',amount:0, budgetId:budgetId})
+    const [inputs, setInputs] = useState<inputType>({expense:'',amount:null, budgetId:budgetId})
     const inputRef = useRef<HTMLInputElement | null>(null)
 
 
@@ -55,10 +61,10 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId, showForm
     const submitBudget = (e: React.FormEvent<HTMLButtonElement>)=>{
         e.preventDefault()
 
-        const newExpense = {
+        const newExpense:ExpenseType = {
             id: Math.ceil(Math.random() * 10000),
             title: inputs.expense,
-            amount: inputs.amount,
+            amount: inputs.amount??0,
             budgetId: budgetId,
           };
       
@@ -73,7 +79,7 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId, showForm
         })
     
         saveDataToLocalStorage(newExpense)
-        setInputs({expense:'',amount:0, budgetId:budgetId})
+        setInputs({expense:'',amount:null, budgetId:budgetId})
         setModalExpenseOpen(false)
 
     }
@@ -109,7 +115,7 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId, showForm
                 onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.valueAsNumber}))}           
                 name="amount" 
                 placeholder='amount'
-                value={inputs.amount}
+                value={inputs.amount??''}
                 tabIndex={showForm?0:-1}
             />
             
