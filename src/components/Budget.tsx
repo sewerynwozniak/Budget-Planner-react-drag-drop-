@@ -196,7 +196,6 @@ useEffect(() => {
 
 
     useEffect(()=>{
-      console.log(expenses)
       setIsExpenseHovered(false)
     },[expenses])
 
@@ -240,7 +239,7 @@ useEffect(() => {
       <button data-budget='true' className='budgets__delete' onClick={()=>deleteBudget(details.id)}>X</button>
 
 
-      <EditableBudgetTitle title={details?.title} setIsClicked={demoFunc}/>
+      <EditableBudgetTitle id={details?.id} title={details?.title} setIsClicked={demoFunc}/>
 
 
 

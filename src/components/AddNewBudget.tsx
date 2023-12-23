@@ -67,7 +67,6 @@ const { setBudgets } = budgetContext;
 
 
 
-  
 
     // To save data to local storage
     const saveDataToLocalStorage = (data:BudgetType) => {
