@@ -15,7 +15,7 @@ const Budgets = () => {
   }
  
 
-  const { budgets, editableTitle } = budgetContext;
+  const { budgets, editableTitle, setClickedOutside } = budgetContext;
 
   const displayBudgets = ()=>{
    return budgets? budgets?.map((budget, index)=>(
@@ -24,32 +24,34 @@ const Budgets = () => {
   }
 
 
+
   useEffect(() => {
  
     const handleOutsideClick = (e: MouseEvent) => {
-        //console.log(editableTitle.current)
-  
+        
       const targetElement = e.target as HTMLElement;
       if (
         targetElement &&
         editableTitle.current &&
         !editableTitle.current.contains(targetElement)           
       ) {
-        console.log('Clicked outside');
-        
+        //if clicked outside Editable component
+        setClickedOutside(true)   
+        console.log('clicked outside')
       } 
     };
 
 
     document.addEventListener('click', handleOutsideClick);
     
-  
     return () => {
       document.removeEventListener('click', handleOutsideClick);
+      //setClickedOutside(false)
     };
 
 
   });
+
 
 
   return (

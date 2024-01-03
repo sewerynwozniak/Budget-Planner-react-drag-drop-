@@ -15,6 +15,8 @@ export type BudgetContextTypes = {
   dropBudget: ()=>void
   budgetIsDragged:React.MutableRefObject<boolean>
   editableTitle:React.MutableRefObject<HTMLInputElement | null>
+  clickedOutside:boolean
+  setClickedOutside:React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
@@ -39,8 +41,9 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
   //state to discriminate dragging budget from
   const budgetIsDragged = useRef(false)
   
+  
   const editableTitle = useRef<HTMLInputElement|null>(null)
-
+  const [clickedOutside, setClickedOutside] = useState(false)
 
 
   const dropBudget = ()=>{
@@ -78,7 +81,7 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
   
   return (
 
-    <BudgetContext.Provider value={{budgets, setBudgets, draggedBudget, draggedOverBudget, dropBudget, budgetIsDragged, editableTitle}}>
+    <BudgetContext.Provider value={{budgets, setBudgets, draggedBudget, draggedOverBudget, dropBudget, budgetIsDragged, editableTitle, clickedOutside, setClickedOutside}}>
         {children}
     </BudgetContext.Provider>
   )

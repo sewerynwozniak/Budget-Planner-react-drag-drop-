@@ -7,13 +7,13 @@ import { BudgetContext } from '../contexts/BudgetContext';
 type TitleType={
     id:number
     title:string
-    setIsClicked:React.Dispatch<React.SetStateAction<boolean>>
+  
 }
 
 
 
 
-const EditableBudgetTitle = ({id,title, setIsClicked}:TitleType) => {
+const EditableBudgetTitle = ({id,title}:TitleType) => {
 
 
     const [isEdited, setIsEdited] = useState(false)
@@ -22,12 +22,12 @@ const EditableBudgetTitle = ({id,title, setIsClicked}:TitleType) => {
 
     
 
-
     useEffect(()=>{
         editableTitle.current?.focus()
     },[isEdited])
 
 
+ 
 
 
     //context
@@ -38,8 +38,16 @@ const EditableBudgetTitle = ({id,title, setIsClicked}:TitleType) => {
       return false; 
     }
   
-     const { budgets, setBudgets, editableTitle } = budgetContext;
+     const { budgets, setBudgets, editableTitle, clickedOutside } = budgetContext;
 
+
+
+     useEffect(()=>{
+        if(clickedOutside){
+            setIsEdited(false)
+        }
+        
+    },[clickedOutside])
 
     
      const changeTitle =(e:React.MouseEvent<HTMLButtonElement>)=>{
