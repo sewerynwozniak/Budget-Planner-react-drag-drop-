@@ -208,26 +208,14 @@ useEffect(() => {
     overflow:showExpense?'auto':'hidden'
   }
 
-  //
 
-    const [isClicked, setIsClicked]=useState(false)
-
-
-    const demoFunc=(arg: boolean | ((prevState: boolean) => boolean)) => {
-   
-      setIsClicked(arg)
-    }
-
-   
-
-  //
   return (
     <div 
       style={handleStyleOnBudget}
       className='budgets__budget'
       data-index={index}
       data-budget='true'
-      draggable={!isClicked}
+      draggable={true}
       
       onDragStart={(e)=>handleBudgetOnDragStart(e,Number(e.currentTarget.getAttribute('data-index')))}
       onDragEnter={(e)=>handleBudgetOnEnter(e,Number(e.currentTarget.getAttribute('data-index')))}
@@ -239,7 +227,7 @@ useEffect(() => {
       <button data-budget='true' className='budgets__delete' onClick={()=>deleteBudget(details.id)}>X</button>
 
 
-      <EditableBudgetTitle id={details?.id} title={details?.title} setIsClicked={demoFunc}/>
+      <EditableBudgetTitle id={details?.id} title={details?.title} />
 
 
 

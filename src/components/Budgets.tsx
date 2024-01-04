@@ -46,7 +46,7 @@ const Budgets = () => {
     
     return () => {
       document.removeEventListener('click', handleOutsideClick);
-      //setClickedOutside(false)
+      setClickedOutside(false)
     };
 
 
