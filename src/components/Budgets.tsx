@@ -5,7 +5,6 @@ import Budget from './Budget'
 
 
 
-
 const Budgets = () => {
 
   const budgetContext = useContext(BudgetContext);

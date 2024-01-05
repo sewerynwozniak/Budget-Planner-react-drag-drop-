@@ -3,7 +3,7 @@ import React, { ReactNode, createContext, useEffect, useRef, useState } from 're
 export type BudgetType={
     id:number,
     title:string,
-    limit?:number
+    limit:number|null
 }
 
 
@@ -15,6 +15,7 @@ export type BudgetContextTypes = {
   dropBudget: ()=>void
   budgetIsDragged:React.MutableRefObject<boolean>
   editableTitle:React.MutableRefObject<HTMLInputElement | null>
+  editableLimit:React.MutableRefObject<HTMLInputElement | null>
   clickedOutside:boolean
   setClickedOutside:React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -43,6 +44,7 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
   
   
   const editableTitle = useRef<HTMLInputElement|null>(null)
+  const editableLimit = useRef<HTMLInputElement|null>(null)
   const [clickedOutside, setClickedOutside] = useState(false)
 
 
@@ -81,7 +83,7 @@ const BudgetProvider: React.FC<BudgetProviderProps> = ({children}) => {
   
   return (
 
-    <BudgetContext.Provider value={{budgets, setBudgets, draggedBudget, draggedOverBudget, dropBudget, budgetIsDragged, editableTitle, clickedOutside, setClickedOutside}}>
+    <BudgetContext.Provider value={{budgets, setBudgets, draggedBudget, draggedOverBudget, dropBudget, budgetIsDragged, editableTitle,editableLimit, clickedOutside, setClickedOutside}}>
         {children}
     </BudgetContext.Provider>
   )

@@ -6,6 +6,7 @@ import { ExpenseType, ExpenseContext } from '../contexts/ExpenseContext'
 import Expense from './Expense'
 import ExpensesBar from './ExpensesBar'
 import EditableBudgetTitle from './EditableBudgetTitle'
+import EditableBudgetLimit from './EditableBudgetLimit'
 
 
 
@@ -231,7 +232,9 @@ useEffect(() => {
 
 
 
-      <span data-budget='true'>limit: {details?.limit}</span>
+      <span data-budget='true'>limit: 
+        <EditableBudgetLimit limit={details?.limit}/>
+      </span>
 
       {details.limit?<ExpensesBar currentExpenses={sumBudgetExpenses} limitExpenses={details.limit}/>:''}
       

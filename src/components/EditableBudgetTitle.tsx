@@ -20,8 +20,6 @@ const EditableBudgetTitle = ({id,title}:TitleType) => {
     const [titleInput, setTitleInput] = useState(title)
 
 
-
-    console.log('rerender')
     
 
     useEffect(()=>{
@@ -75,11 +73,9 @@ const EditableBudgetTitle = ({id,title}:TitleType) => {
      }
 
 
-     const handleOnKeyDown = (e:React.KeyboardEvent<HTMLHeadingElement>)=>{
+     const handleOnKeyUp = (e:React.KeyboardEvent<HTMLHeadingElement>)=>{
         const key = e.code
         if(key=='Enter'){
-            console.log('kliknięte')
-            e.preventDefault()
             setIsEdited(true)
         }
      }
@@ -88,7 +84,7 @@ const EditableBudgetTitle = ({id,title}:TitleType) => {
     return (
     <>
        {isEdited?(
-            <form className='editableBudget__form' action="">
+            <form className='editableBudgetTitle__form' action="">
                 <input onChange={e=>setTitleInput(e.target.value)} ref={editableTitle} type="text" value={titleInput} />
                 
                 <button onClick={changeTitle} type='submit'>
@@ -100,7 +96,7 @@ const EditableBudgetTitle = ({id,title}:TitleType) => {
             </form>
             
        ):(
-        <h3 onDoubleClick={()=>setIsEdited(true)} onKeyDown={handleOnKeyDown} tabIndex={0} className='budgets__title' data-budget='true'>{title}</h3>
+        <h3 onDoubleClick={()=>setIsEdited(true)} onKeyUp={handleOnKeyUp} tabIndex={0} className='budgets__title' data-budget='true'>{title}</h3>
 
        )}
 
