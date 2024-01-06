@@ -4,10 +4,11 @@ import cross from '../assets/cross.png';
 import {BudgetContext} from '../contexts/BudgetContext';
 
 type LimitType={
+    id:number,
     limit:number|null
 }
 
-const EditableBudgetLimit = ({limit}:LimitType) => {
+const EditableBudgetLimit = ({id, limit}:LimitType) => {
 
 
     const [isEdited, setIsEdited] = useState(false)
@@ -22,11 +23,27 @@ const EditableBudgetLimit = ({limit}:LimitType) => {
           return false; 
         }
 
-    const { editableLimit } = budgetContext;
+    const { editableLimit, budgets, setBudgets } = budgetContext;
 
 
     const changeLimit =(e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
+        console.log(budgets)
+        console.log(limitInput)
+         const changedLimit =budgets&& budgets.map(budget=>{
+       
+           if(budget.id==id){
+            console.log(budget)
+            return {...budget, limit:limitInput}
+           }else{
+            return budget
+           }    
+        } )
+
+      
+        setBudgets(changedLimit)
+        localStorage.setItem('budgetData', JSON.stringify(changedLimit));
+        setIsEdited(false)
 
      }
 
@@ -48,13 +65,22 @@ const EditableBudgetLimit = ({limit}:LimitType) => {
         setLimitInput(limit)
      },[limit])
 
+     useEffect(()=>{
+        editableLimit.current?.focus()
+     },[isEdited])
+
+
+   
+    
+
+
   return (
     <>
         {isEdited?(
-            <form className='editableBudgetLimit__form' action="">
+            <form className='editableBudgetLimit__form'>
                 <input 
                     onChange={e=>setLimitInput(parseInt(e.target.value))} 
-                 /*    ref={editableTitle}  */
+                    ref={editableLimit}
                     type="number" 
                     value={limitInput?limitInput:0} 
                 />
@@ -67,7 +93,7 @@ const EditableBudgetLimit = ({limit}:LimitType) => {
                 </button>
             </form>
         ):(
-            <p onDoubleClick={()=>setIsEdited(true)} onKeyUp={handleOnKeyUp} tabIndex={0}>{limit}</p>
+            <p className='editableBudgetLimit__p'  onDoubleClick={()=>setIsEdited(true)} onKeyUp={handleOnKeyUp} tabIndex={0}>{limit}</p>
         )
 
         }

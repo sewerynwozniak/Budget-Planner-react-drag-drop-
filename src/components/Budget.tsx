@@ -228,12 +228,12 @@ useEffect(() => {
       <button data-budget='true' className='budgets__delete' onClick={()=>deleteBudget(details.id)}>X</button>
 
 
-      <EditableBudgetTitle id={details?.id} title={details?.title} />
+        <EditableBudgetTitle id={details?.id} title={details?.title} />
 
 
 
       <span data-budget='true'>limit: 
-        <EditableBudgetLimit limit={details?.limit}/>
+        <EditableBudgetLimit id={details?.id} limit={details?.limit}/>
       </span>
 
       {details.limit?<ExpensesBar currentExpenses={sumBudgetExpenses} limitExpenses={details.limit}/>:''}

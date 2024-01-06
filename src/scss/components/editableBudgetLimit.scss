@@ -22,4 +22,12 @@
         }
     }
 
+    &__p{
+        cursor: text;
+        &:hover{
+            background-color: rgb(247, 247, 247);
+            transition: all 0.3s;
+        }
+    }
+
 }
