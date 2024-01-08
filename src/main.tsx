@@ -4,14 +4,18 @@ import App from './App.tsx'
 import '../src/scss/main.scss'
 import BudgetProvider from './contexts/BudgetContext.tsx'
 import ExpenseProvider from './contexts/ExpenseContext.tsx'
+import NotificationProvider from './contexts/NotificationContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <BudgetProvider>
-    <ExpenseProvider>
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>
-    </ExpenseProvider>
-  </BudgetProvider>
+  
+    <NotificationProvider>
+      <BudgetProvider>
+        <ExpenseProvider>
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>
+        </ExpenseProvider>
+      </BudgetProvider>
+    </NotificationProvider>
   ,
 )

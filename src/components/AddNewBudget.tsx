@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { BudgetContext } from '../contexts/BudgetContext'
 import { BudgetType } from '../contexts/BudgetContext'
+import { NotificationContext } from '../contexts/NotificationContext'
 
 const AddNewBudget = () => {
 
@@ -30,16 +31,33 @@ const [inputs, setInputs] = useState({budget:'',limit:0})
         },[])
 
  
+// budget context
 
 const budgetContext = useContext(BudgetContext);
 //type guard to check potential false value
-//console.log(budgetContext)
 if (!budgetContext) {
   return false; 
 }
 
-
 const { setBudgets } = budgetContext;
+
+
+
+
+// notification context
+
+const notificationContext = useContext(NotificationContext);
+//type guard to check potential false value
+if (!notificationContext) {
+  return false; 
+}
+
+ const { isVisible, setIsVisible,notificationText, setNotificationText } = notificationContext;
+
+
+ console.log(isVisible)
+
+
 
 
     useEffect(() => {
@@ -63,7 +81,7 @@ const { setBudgets } = budgetContext;
     const getDataFromLocalStorage = () => {
      const data = localStorage.getItem('budgetData');
      return data ? JSON.parse(data) : [];
-      };
+    };
 
 
 
@@ -79,28 +97,40 @@ const { setBudgets } = budgetContext;
 
 
 
+    const checkIsInputEmpty =()=>{
+        if(inputs.budget==''){
+            return true
+        }else{
+            return false
+        }
+    }
     
 
 
     const submitBudget = (e: React.FormEvent<HTMLButtonElement>)=>{
-        e.preventDefault()
 
-        const newBudget = {id:Math.ceil(Math.random()*10000),title:inputs.budget,limit:inputs.limit}
+
+        setIsVisible(true)
+        setNotificationText('Fill all inputs')
+
+        // e.preventDefault()
+
+
+        // const newBudget = {id:Math.ceil(Math.random()*10000),title:inputs.budget,limit:inputs.limit}
       
 
-        setBudgets(prev=>{
-            if(prev==null){
-                return [newBudget]
-            }else{
-                return [...prev, newBudget]
-            }
-        })
+        // setBudgets(prev=>{
+        //     if(prev==null){
+        //         return [newBudget]
+        //     }else{
+        //         return [...prev, newBudget]
+        //     }
+        // })
     
-        saveDataToLocalStorage(newBudget)
+        // saveDataToLocalStorage(newBudget)
 
 
-
-        setModalOpen(false)
+        // setModalOpen(true)
     }
 
 
@@ -110,12 +140,13 @@ const { setBudgets } = budgetContext;
 
   return (
     <div className='addNewBudget__wrapper'>
-
+        <div className={modalOpen?'dialog__customBackdrop':''}></div>
         <dialog className='dialog' ref={dialogRef}>
             
             <button className='dialog__closeBtn btn btn--red' onClick={()=>setModalOpen(false)}>X</button>
 
             <h3>Add budget</h3>
+
 
             <form action="">
                 <input 
@@ -123,6 +154,7 @@ const { setBudgets } = budgetContext;
                     name='budget' 
                     onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.value}))} 
                     placeholder='budget name'
+                    required
                 />
 
                 <label htmlFor="addBudgetLimit">
@@ -141,7 +173,7 @@ const { setBudgets } = budgetContext;
                     />
                 )}
 
-            <button className='addNewBudget__submit btn btn--blue' onClick={submitBudget}>Add</button>
+                <button className='addNewBudget__submit btn btn--blue' onClick={submitBudget}>Add</button>
             </form>
 
         </dialog>

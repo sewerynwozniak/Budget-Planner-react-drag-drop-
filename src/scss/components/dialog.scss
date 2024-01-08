@@ -1,8 +1,7 @@
 .dialog[open]{
     display: flex;
     flex-direction: column;
-
-    
+  
 }
 
 
@@ -11,6 +10,7 @@
     border-radius: 5px;
     border: none;
     padding: 20px;
+    z-index: 10;
 
     form{
         display: flex;
@@ -19,7 +19,14 @@
         input{
             border-radius: 5px;
             margin: 5px 0;
+
+          
         }
+
+
+        
+
+
     }
 
     &__closeBtn{
@@ -27,8 +34,21 @@
         align-self: end;
     }
     
+
     &::backdrop{
+        display: none;
+    }
+
+    &__customBackdrop{
+        
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
         background-color: #2c2929d6;
+        z-index: 9;
+        
     }
     
 }
