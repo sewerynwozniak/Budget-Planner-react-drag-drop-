@@ -241,7 +241,9 @@ useEffect(() => {
       <p>summed expenses: {sumBudgetExpenses}</p>
       
       <div className="budgets__btnsWrapper">
-        <button data-belong='true' className='budgets__addNew btn  btn--blue' onClick={e=>setShowForm(prev=>!prev)}>Add expense</button>     
+        <button data-belong='true' className='budgets__addNew btn  btn--blue' onClick={e=>setShowForm(prev=>!prev)}>
+          {showForm?'Hide':'Show'} expense form
+        </button>     
         <button data-belong='true' className='budgets__addNew btn  btn--blue' onClick={()=>setShowExpense(prev=>!prev)}>
           {showExpense?'Hide':'Show'} expenses
         </button>

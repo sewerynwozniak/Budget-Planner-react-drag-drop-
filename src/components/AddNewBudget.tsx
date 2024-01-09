@@ -12,6 +12,7 @@ const [modalOpen, setModalOpen] = useState(false)
 const [addBudgetLimit, setAddBudgetLimit] = useState(false)
 const [inputs, setInputs] = useState({budget:'',limit:0})
 
+const checkboxRef = useRef<HTMLInputElement>(null);
 
     const closeModalOnEscapeClick = (e:KeyboardEvent)=>{
         if (e.key === 'Escape') {
@@ -53,10 +54,6 @@ if (!notificationContext) {
 }
 
  const { isVisible, setIsVisible,notificationText, setNotificationText } = notificationContext;
-
-
- console.log(isVisible)
-
 
 
 
@@ -108,29 +105,38 @@ if (!notificationContext) {
 
 
     const submitBudget = (e: React.FormEvent<HTMLButtonElement>)=>{
+    
 
+         e.preventDefault()
 
-        setIsVisible(true)
-        setNotificationText('Fill all inputs')
+        console.log(isVisible, 'submit')
 
-        // e.preventDefault()
+        if(inputs.budget==''){
+            setIsVisible(true)
+            setNotificationText('Fill all inputs')    
+            return
+        }
+            
 
-
-        // const newBudget = {id:Math.ceil(Math.random()*10000),title:inputs.budget,limit:inputs.limit}
+        const newBudget = {id:Math.ceil(Math.random()*10000),title:inputs.budget,limit:inputs.limit}
       
 
-        // setBudgets(prev=>{
-        //     if(prev==null){
-        //         return [newBudget]
-        //     }else{
-        //         return [...prev, newBudget]
-        //     }
-        // })
+        setBudgets(prev=>{
+            if(prev==null){
+                return [newBudget]
+            }else{
+                return [...prev, newBudget]
+            }
+        })
     
-        // saveDataToLocalStorage(newBudget)
+        saveDataToLocalStorage(newBudget)
 
-
-        // setModalOpen(true)
+    
+        if (checkboxRef.current !== null) {
+            checkboxRef.current.checked=false;
+          }
+        setInputs({budget:'',limit:0})
+        setModalOpen(false)
     }
 
 
@@ -147,12 +153,12 @@ if (!notificationContext) {
 
             <h3>Add budget</h3>
 
-
-            <form action="">
+            <form>
                 <input 
-                    type="text" 
+                    type="text"                    
                     name='budget' 
                     onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.value}))} 
+                    value={inputs.budget}
                     placeholder='budget name'
                     required
                 />
@@ -160,7 +166,7 @@ if (!notificationContext) {
                 <label htmlFor="addBudgetLimit">
                     add budget limit
                     <input 
-                        type="checkbox" onChange={()=>setAddBudgetLimit(prev=>!prev)} name="" id="addBudgetLimit" />
+                        type="checkbox" ref={checkboxRef} onChange={()=>setAddBudgetLimit(prev=>!prev)} name="" id="addBudgetLimit" />
                 
                 </label>
           
@@ -168,12 +174,14 @@ if (!notificationContext) {
                     <input 
                         type="number" 
                         onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.value}))} 
+                        value={inputs.limit}
                         name="limit" 
                         id="" 
                     />
                 )}
 
                 <button className='addNewBudget__submit btn btn--blue' onClick={submitBudget}>Add</button>
+      
             </form>
 
         </dialog>
