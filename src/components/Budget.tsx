@@ -90,29 +90,29 @@ useEffect(() => {
   }
 
 
-  const handleOnBudgetLeave =(e:any)=>{
 
-    if(!e.relatedTarget.getAttribute('data-budget')){
+
+
+  const handleOnBudgetLeave =(e:React.MouseEvent)=>{
+    const relatedTarget = e.relatedTarget as HTMLElement;
+
+    if(!relatedTarget.getAttribute('data-budget')){
       setIsHovered(false)
     }
   }
 
 
-  const handleOnBudgetDragEnd = (e:any)=>{
-    
 
-
-    if(e.target.getAttribute('data-budget')){
-
-      budgetIsDragged.current=false
-      setIsHovered(false)
-      setIsDragged(false)
-      dropBudget()
-    }
-
+  const handleOnBudgetDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLDivElement;
   
-  }
-
+    if (target.getAttribute('data-budget')) {
+      budgetIsDragged.current = false;
+      setIsHovered(false);
+      setIsDragged(false);
+      dropBudget();
+    }
+  };
 
 
   //expenses
@@ -163,32 +163,37 @@ useEffect(() => {
 
 
 
-  const handleOnExpenseDragEnd =(e:any)=>{
+  const handleOnExpenseDragEnd =()=>{
 
-    setExpenses(prev=>{
-     
-      if (prev === null) {
-        return null; // Return null if prev is null
+   
+    const changedExpenses = expenses&& expenses.map(el => {
+      if (el.id === draggedExpenseId.current) {    
+        return {...el, budgetId:draggedOverBudget.current};
       }
+      return el;
+    });
+    let orderedExpensesd
+    //move changes expense to the end of the array
+    if(changedExpenses){
+      orderedExpensesd = [...changedExpenses.filter(el=>el.id==draggedExpenseId.current), ...changedExpenses.filter(el=>el.id!=draggedExpenseId.current) ] 
+    }
+       
     
-      //Perform operations on prev assuming it's not null
-      const changedExpenses = prev.map(el => {
-        if (el.id === draggedExpenseId.current) {    
-          return {...el, budgetId:draggedOverBudget.current};
-        }
-        return el;
-      });
-      //move changes expense to the end of the array
-      return [...changedExpenses.filter(el=>el.id!=draggedExpenseId.current), ...changedExpenses.filter(el=>el.id==draggedExpenseId.current)]
-    })
+
+    if(orderedExpensesd){
+      setExpenses(orderedExpensesd)
+      localStorage.setItem('expenseData', JSON.stringify(orderedExpensesd));
+
+    }
+ 
 
   }
 
 
 
-    const handleOnExpenseLeave =(e:any)=>{
-
-      if(!e.relatedTarget.getAttribute('data-expense')){  
+    const handleOnExpenseLeave =(e:React.MouseEvent)=>{
+      const target = e.relatedTarget as HTMLDivElement;
+      if(!target.getAttribute('data-expense')){  
         setIsExpenseHovered(false)
       }
         
@@ -261,6 +266,7 @@ useEffect(() => {
       >
         {generatExpense()}
       </div>
+      
     </div>
   )
 }

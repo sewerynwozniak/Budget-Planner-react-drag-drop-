@@ -107,15 +107,23 @@ if (!notificationContext) {
     const submitBudget = (e: React.FormEvent<HTMLButtonElement>)=>{
     
 
-         e.preventDefault()
+        e.preventDefault()
 
-        console.log(isVisible, 'submit')
-
+       
         if(inputs.budget==''){
             setIsVisible(true)
             setNotificationText('Fill all inputs')    
             return
         }
+
+        if (checkboxRef.current !== null) {
+            if(checkboxRef.current.checked && inputs.limit<=0){
+                setIsVisible(true)
+                setNotificationText('Limit must be above 0')    
+                return
+            }
+        }
+       
             
 
         const newBudget = {id:Math.ceil(Math.random()*10000),title:inputs.budget,limit:inputs.limit}

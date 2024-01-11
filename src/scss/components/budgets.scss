@@ -2,6 +2,7 @@
 
 
     &__wrapper{
+        margin-top: 50px;
         display: flex;
         align-items: flex-start;
 
@@ -20,6 +21,8 @@
     }
 
     &__delete{
+        display: block;
+        margin-left: auto;
         cursor: pointer;
         background-color: rgb(221, 36, 36);
         color: #fff;
