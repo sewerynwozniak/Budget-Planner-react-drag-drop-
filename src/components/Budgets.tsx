@@ -36,7 +36,7 @@ const Budgets = () => {
       ) {
         //if clicked outside Editable component
         setClickedOutside(true)   
-        console.log('clicked outside')
+
       } 
     };
 
@@ -49,6 +49,7 @@ const Budgets = () => {
     };
 
 
+
   });
 
 
@@ -56,6 +57,7 @@ const Budgets = () => {
   return (
     <div className='budgets__wrapper'>
         {displayBudgets()}
+        <div className='demo'>Hello</div>
     </div>
   )
 }

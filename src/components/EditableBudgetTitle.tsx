@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import check from '../assets/check.png';
 import cross from '../assets/cross.png';
 import { BudgetContext } from '../contexts/BudgetContext';
+import {NotificationContext} from '../contexts/NotificationContext';
 
 
 type TitleType={
@@ -42,7 +43,22 @@ const EditableBudgetTitle = ({id,title}:TitleType) => {
 
 
 
+
+     // notification context
+
+        const notificationContext = useContext(NotificationContext);
+        //type guard to check potential false value
+        if (!notificationContext) {
+          return false; 
+        }
+        
+         const { setIsVisible, setNotificationText } = notificationContext;
+
+
+
+
      useEffect(()=>{
+
         if(clickedOutside){
             setIsEdited(false)
         }
@@ -52,6 +68,12 @@ const EditableBudgetTitle = ({id,title}:TitleType) => {
     
      const changeTitle =(e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
+
+        if(titleInput==''){
+            setIsVisible(true)
+            setNotificationText('Fill the input')
+            return
+        }
 
         const changedBudget =budgets&&budgets.map(budget=>{
             if(budget.id==id){
@@ -63,6 +85,7 @@ const EditableBudgetTitle = ({id,title}:TitleType) => {
         setBudgets(changedBudget)
         localStorage.setItem('budgetData', JSON.stringify(changedBudget));
         setIsEdited(false)
+
      }
 
 

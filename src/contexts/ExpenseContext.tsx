@@ -7,8 +7,8 @@ export type ExpenseProviderProps={
   }
 
 export type ExpenseType={
-    id:number,
-    title:string,
+    id:number
+    title:string
     amount:number
     budgetId:number
 }
@@ -81,7 +81,7 @@ const ExpenseProvider: React.FC<ExpenseProviderProps> = ({children}) => {
   return (
 
     <ExpenseContext.Provider value={{expenses, draggedExpenseId, draggedOverExpense, setExpenses, deleteExpense, expenseIsDragged}}>
-        {children},
+        {children}
     </ExpenseContext.Provider>
  
   )

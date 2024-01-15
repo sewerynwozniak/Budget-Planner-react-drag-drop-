@@ -8,11 +8,13 @@ const AddNewBudget = () => {
 const dialogRef = useRef<HTMLDialogElement>(null)
 
 
+
 const [modalOpen, setModalOpen] = useState(false)
 const [addBudgetLimit, setAddBudgetLimit] = useState(false)
 const [inputs, setInputs] = useState({budget:'',limit:0})
 
 const checkboxRef = useRef<HTMLInputElement>(null);
+const inputRef = useRef<HTMLInputElement>(null);
 
     const closeModalOnEscapeClick = (e:KeyboardEvent)=>{
         if (e.key === 'Escape') {
@@ -24,12 +26,13 @@ const checkboxRef = useRef<HTMLInputElement>(null);
     //handle closing dialog on escape keyDown
     useEffect(()=>{
      
-        dialogRef.current?.addEventListener('keydown', closeModalOnEscapeClick);
+        document.addEventListener('keydown', closeModalOnEscapeClick);
+       
 
         return () => {
-          dialogRef.current?.removeEventListener('keydown', closeModalOnEscapeClick);
+            document.removeEventListener('keydown', closeModalOnEscapeClick);
         };
-        },[])
+     },[])
 
  
 // budget context
@@ -53,7 +56,7 @@ if (!notificationContext) {
   return false; 
 }
 
- const { isVisible, setIsVisible,notificationText, setNotificationText } = notificationContext;
+ const { setIsVisible, setNotificationText } = notificationContext;
 
 
 
@@ -61,6 +64,7 @@ if (!notificationContext) {
 
         if(modalOpen){
             dialogRef.current?.showModal()
+            inputRef.current?.focus()
         }else{
             dialogRef.current?.close()
         }
@@ -106,10 +110,8 @@ if (!notificationContext) {
 
     const submitBudget = (e: React.FormEvent<HTMLButtonElement>)=>{
     
-
         e.preventDefault()
 
-       
         if(inputs.budget==''){
             setIsVisible(true)
             setNotificationText('Fill all inputs')    
@@ -154,7 +156,7 @@ if (!notificationContext) {
 
   return (
     <div className='addNewBudget__wrapper'>
-        <div className={modalOpen?'dialog__customBackdrop':''}></div>
+        <div  className={modalOpen?'dialog__customBackdrop':''}></div>
         <dialog className='dialog' ref={dialogRef}>
             
             <button className='dialog__closeBtn btn btn--red' onClick={()=>setModalOpen(false)}>X</button>
@@ -168,6 +170,7 @@ if (!notificationContext) {
                     onChange={(e)=>setInputs(prev=>({...prev, [e.target.name]:e.target.value}))} 
                     value={inputs.budget}
                     placeholder='budget name'
+                    ref={inputRef}
                     required
                 />
 

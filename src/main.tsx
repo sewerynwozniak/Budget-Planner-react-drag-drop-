@@ -17,5 +17,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </ExpenseProvider>
       </BudgetProvider>
     </NotificationProvider>
-  ,
 )
