@@ -67,6 +67,7 @@ const EditableBudgetLimit = ({id, limit}:LimitType) => {
 
     const closeEditForm = (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
+        setLimitInput(limit)
         setIsEdited(false)
      }
 

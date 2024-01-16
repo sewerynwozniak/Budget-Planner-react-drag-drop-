@@ -27,12 +27,14 @@ const Budgets = () => {
   useEffect(() => {
  
     const handleOutsideClick = (e: MouseEvent) => {
-        
-      const targetElement = e.target as HTMLElement;
+         
+       const targetElement = e.target as HTMLElement;
+
       if (
         targetElement &&
         editableTitle.current &&
-        !editableTitle.current.contains(targetElement)           
+        //check if click on enter was inside form
+        !targetElement.closest('form')?.contains(targetElement)       
       ) {
         //if clicked outside Editable component
         setClickedOutside(true)   
@@ -41,7 +43,7 @@ const Budgets = () => {
     };
 
 
-    document.addEventListener('click', handleOutsideClick);
+      document.addEventListener('click', handleOutsideClick);
     
     return () => {
       document.removeEventListener('click', handleOutsideClick);
@@ -56,8 +58,7 @@ const Budgets = () => {
 
   return (
     <div className='budgets__wrapper'>
-        {displayBudgets()}
-        <div className='demo'>Hello</div>
+        {displayBudgets()}     
     </div>
   )
 }

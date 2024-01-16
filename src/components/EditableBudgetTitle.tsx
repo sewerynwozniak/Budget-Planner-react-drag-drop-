@@ -13,7 +13,6 @@ type TitleType={
 
 
 
-
 const EditableBudgetTitle = ({id,title}:TitleType) => {
 
 
@@ -57,9 +56,10 @@ const EditableBudgetTitle = ({id,title}:TitleType) => {
 
 
 
-     useEffect(()=>{
+    useEffect(()=>{
 
         if(clickedOutside){
+            setTitleInput(title)
             setIsEdited(false)
         }
         
@@ -92,6 +92,7 @@ const EditableBudgetTitle = ({id,title}:TitleType) => {
 
      const closeEditForm = (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
+        setTitleInput(title)
         setIsEdited(false)
      }
 

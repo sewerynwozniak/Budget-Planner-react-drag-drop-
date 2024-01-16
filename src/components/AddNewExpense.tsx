@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { ExpenseContext } from '../contexts/ExpenseContext'
 import { ExpenseType } from '../contexts/ExpenseContext'
+import {NotificationContext} from '../contexts/NotificationContext';
 
 type AddNewExpenseProps={
     modaExpenseOpen: boolean;
@@ -24,6 +25,7 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId, showForm
     const inputRef = useRef<HTMLInputElement | null>(null)
 
 
+
     const expenseContext = useContext(ExpenseContext);
     //type guard to check potential false value
  
@@ -32,6 +34,19 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId, showForm
     }
 
     const { setExpenses } = expenseContext;
+
+
+
+
+    // notification context
+
+    const notificationContext = useContext(NotificationContext);
+    //type guard to check potential false value
+    if (!notificationContext) {
+      return false; 
+    }
+    
+     const { setIsVisible, setNotificationText } = notificationContext;
 
 
 
@@ -60,6 +75,13 @@ const AddNewExpense = ({modaExpenseOpen, setModalExpenseOpen, budgetId, showForm
 
     const submitBudget = (e: React.FormEvent<HTMLButtonElement>)=>{
         e.preventDefault()
+
+
+        if(inputs.expense==''){
+            setNotificationText('Fill name input')
+            setIsVisible(true)
+            return
+        }
 
         const newExpense:ExpenseType = {
             id: Math.ceil(Math.random() * 10000),
